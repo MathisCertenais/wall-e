@@ -18,7 +18,7 @@ def main():
     
     print("nom de l'objet' :" + bijoux.get_name())
     print ("chemin  de l'image " + bijoux.get_path())
-    print (" position : " + "(" + str(bijoux.get_position()[0]) + "," + str(bijoux.get_position()[0]) +")" )
+    print (" position : " + "(" + str(bijoux.get_position()[0]) + "," + str(bijoux.get_position()[1]) +")" )
     
     
     
