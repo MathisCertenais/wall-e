@@ -24,13 +24,16 @@ class Objet_scene:
         return self.point
     
     def get_position(self):
-        return (self.pos_x,self.pos_y)
+        doublet = 2*[0]
+        doublet[0] = self.pos_x
+        doublet[1] = self.pos_y
+        return doublet
     
     def get_name(self):
         return self.name
 
-    def get_path():
-        return path
+    def get_path(self):
+        return self.path
     
     
         
