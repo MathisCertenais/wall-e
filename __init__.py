@@ -1,16 +1,18 @@
 from objet_element.bijoux import *
+from objet_element.aspirateur import *
+from objet_element.poussiere import *
+
 from ui.interface import *
 
-print ("test des classes")
 
-#♣intanciation
 bijoux = Bijoux(1,3)
+aspirateur = Aspirateur(2,3)
+poussiere = Poussiere(1,2)
 
-print("nom de l'objet' :" + bijoux.get_name())
-print ("chemin  de l'image " + bijoux.get_path())
-print (" position : " + "(" + str(bijoux.get_position()[0]) + "," + str(bijoux.get_position()[1]) +")" )
+print("nom de l'objet' :" + poussiere.get_name())
+createMatrix(4, 3, root)
+insertElement(poussiere, root)
+insertElement(aspirateur, root)
 
-createMatrix(5, 5, root)
-insertElement(bijoux, root)
 # Affichage de la fenêtre
 root.mainloop()

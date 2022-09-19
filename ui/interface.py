@@ -17,12 +17,29 @@ root.title("Manoir de Wall-E")
 root.geometry("1080x720")
 root.minsize(520, 400)
 
+# Classe du tableau 3d qui contiendra les Objets
+class My3DArray():
+    # Initilialisation
+    def __init__(self):
+        self = []
+    # Mise a jour de la taille du tableau
+    def update(self, index, columns):
+        self = [[ ['0' for col in range(1)] for col in range(index)] for row in range(columns)]
+
+# Initialisation du tableau 3d
+array3D = My3DArray()
+
 # Fonction qui permet de générer le manoir, avec comme paramètre le nombre de ligne et de colonne de la matrice, et la fenêtre d'affichage
 def createMatrix(index, columns, root):
+    
+
+    # Edition de la taille du tableau 3d
+    array3D.update(index,columns)
 
     # Initialisation des points de coordonnées
     i = 0
     j = 0
+
     # Création des lignes horizontales
     for x in range(index+1):
         verticale_line = Frame(root, bg='blue', height=1,width=columns*100)
@@ -42,7 +59,20 @@ def createMatrix(index, columns, root):
 # Fonction qui permet d'inserer un element, c'est a dire un robot, une poussiere ou un bijoux dans le manoir, 
 # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
 def insertElement(Object, root):
+    
+    # Deplacement de l'objet s'il s'agit d'un robot
+    if Object.get_name() == 'aspirateur':
+        # Suppression de l'image du robot sur l'interface
+        # Suppression de l'objet robot dans le tableau 3d
+        # Ajout de l'objet robot au nouvel emplacement dans le tableau 3d
+        array3D.update(Object.get_position()[0], Object.get_position()[1])
 
+
+    # Ajout de l'objet s'il s'agit d'une poussiere ou d'un bijoux
+    else:
+        array3D.update(Object.get_position()[0], Object.get_position()[1])
+        print(array3D)
+    
     # Creation d'un objet photo-image de l'image de l'élément concerné
     image = Image.open(Object.get_path())
 
@@ -58,6 +88,7 @@ def insertElement(Object, root):
 # Fonction qui permet d'aspirer un element, c'est a dire une poussiere ou un bijoux dans le manoir, 
 # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
 def aspire(Object, root):
+
     return
 
 
