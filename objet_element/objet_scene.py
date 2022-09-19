@@ -16,8 +16,10 @@ class Objet_scene:
     def __init__(self,ipoint, iname, ipos_x, ipos_y, ipath):
         self.point = ipoint
         self.name = iname
-        self.pos_x = 101*ipos_x 
-        self.pos_y = 101*ipos_y
+        self.pos_x = ipos_x 
+        self.pos_y = ipos_y
+        self.pos_x_pixel = 101*ipos_x 
+        self.pos_y_pixel = 101*ipos_y
         self.path = ipath
         
     def get_point(self):
@@ -27,6 +29,12 @@ class Objet_scene:
         doublet = 2*[0]
         doublet[0] = self.pos_x
         doublet[1] = self.pos_y
+        return doublet
+
+    def get_position_pixel(self):
+        doublet = 2*[0]
+        doublet[0] = self.pos_x_pixel
+        doublet[1] = self.pos_y_pixel
         return doublet
     
     def get_name(self):
