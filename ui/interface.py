@@ -9,6 +9,7 @@ from PIL import Image, ImageTk
 
 
 
+
 # Création d'une fenêtre d'affichage
 root=Tk()
 # Personnalisation de la fenêtre
@@ -43,9 +44,7 @@ def createMatrix(index, columns, root):
 def insertElement(Object, root):
 
     # Creation d'un objet photo-image de l'image de l'élément concerné
-    # A remplacer par la ligne de code commentée lors de l'ajout des classes objets
-    image = Image.open("C:\\Users\\Mathis\\Documents\\code\\wall-e\\ui\\pictures\\waste.png")
-    # image = Image.open(Object.get_path())
+    image = Image.open(Object.get_path())
 
     # Redimensionnement de l'image
     resized_image= image.resize((95,95), Image.ANTIALIAS)
@@ -53,14 +52,13 @@ def insertElement(Object, root):
     label = tkinter.Label(image=new_image)
     label.image = new_image
     # Position de l'image
-    # A remplacer par la ligne de code commentée lors de l'ajout des classes objets
-    label.place(x=100+1, y=100+1)
-    # label.place(x=Object.get_position()[0], y=Object.get_position()[0])
+    label.place(x=Object.get_position()[0], y=Object.get_position()[1])
+    return
+
+# Fonction qui permet d'aspirer un element, c'est a dire une poussiere ou un bijoux dans le manoir, 
+# avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
+def aspire(Object, root):
     return
 
 
-createMatrix(5, 5, root)
-insertElement("1", root)
 
-# Affichage de la fenêtre
-root.mainloop()
