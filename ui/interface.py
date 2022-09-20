@@ -7,6 +7,43 @@ from tkinter import *
 # Librairie pour les images
 from PIL import Image, ImageTk
 
+from objet_element.objet_scene import *
+
+# Classe du tableau 3d qui contiendra les Objets
+class My3DArray():
+    tab = [[ [Objet_scene for col in range(3)] for col in range(1)] for row in range(1)]
+    # Initilialisation
+    def __init__(self):
+        # Creation d'un Arrays 3d
+        self.tab = [[ [Objet_scene for col in range(3)] for col in range(1)] for row in range(1)]
+
+    # Mise a jour de la taille du tableau
+    def updateLenght(self, index, columns):
+        self.tab = [[ [Objet_scene for col in range(3)] for col in range(index)] for row in range(columns)]
+
+    # Mise a jour des éléments du tableau
+    def updateElement(self, Objet : Objet_scene):
+        self.tab[Objet.get_position()[0]][Objet.get_position()[1]][self.checkElement(Objet)] = Objet
+
+    # Observer les elements présent dans la troisieme dimension, en renvoyant l'indice où insérer celui-ci
+    def checkElement(self, Objet : Objet_scene):
+        # Renvoyer l'indice 0 s'il s'agit d'un poussiere
+        if (Objet.get_name() == 'poussiere'):
+            return 0
+        # Renvoyer l'indice 1 s'il s'agit d'un bijoux
+        if (Objet.get_name() == 'bijoux'):
+            return 1
+        # Renvoyer l'indice 2 s'il s'agit d'un robot
+        return 2
+
+
+    # Fonction toString pour afficher le contenu du tableau 3d
+    def get3DArray(self):
+        return self.tab
+
+    def __str__(self):
+        return print(self.tab)
+
 
 
 
@@ -21,6 +58,9 @@ class ThreadInterface():
         
         # Créer la matrice
         self.createMatrix(x,y)
+
+        # Initialisation du tableau 3d
+        self.array3D = My3DArray()
 
         # Les queues qui sont nécessaires au worker
         self.queue_elements = queue_elements
@@ -60,10 +100,25 @@ class ThreadInterface():
 
     # Fonction qui permet d'inserer un element, c'est a dire un robot, une poussiere ou un bijoux dans le manoir, 
     # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
-    def insertElement(self, Object):
+    def insertElement(Objet_scene, root):
+        
+        # Deplacement de l'objet s'il s'agit d'un robot
+        if Objet_scene.get_name() == 'aspirateur':
+            # Suppression de l'image du robot sur l'interface
+            # Suppression de l'objet robot dans le tableau 3d
+            # Ajout de l'objet robot au nouvel emplacement dans le tableau 3d
+            self.array3D.updateElement(Objet_scene)
+
+        # Ajout de l'objet s'il s'agit d'une poussiere ou d'un bijoux
+        elif Objet_scene.get_name() == 'poussiere':
+            self.array3D.updateElement(Objet_scene)
+
+        elif Objet_scene.get_name() == 'bijoux':
+            self.array3D.updateElement(Objet_scene)
+
 
         # Creation d'un objet photo-image de l'image de l'élément concerné
-        image = Image.open(Object.get_path())
+        image = Image.open(Objet_scene.get_path())
 
         # Redimensionnement de l'image
         resized_image= image.resize((95,95), Image.ANTIALIAS)
@@ -71,13 +126,16 @@ class ThreadInterface():
         label = tkinter.Label(image=new_image)
         label.image = new_image
         # Position de l'image
-        label.place(x=Object.get_position()[0], y=Object.get_position()[1])
+        label.place(x=Objet_scene.get_position_pixel()[0], y=Objet_scene.get_position_pixel()[1])
         return
 
     # Fonction qui permet d'aspirer un element, c'est a dire une poussiere ou un bijoux dans le manoir, 
     # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
     def aspire(self, Object, root):
         return
+
+
+
 
 
 
