@@ -13,9 +13,9 @@ from objet_element.objet_scene import *
 class My3DArray():
     tab = [[ [Objet_scene for col in range(3)] for col in range(1)] for row in range(1)]
     # Initilialisation
-    def __init__(self):
+    def __init__(self, x=5, y=5):
         # Creation d'un Arrays 3d
-        self.tab = [[ [Objet_scene for col in range(3)] for col in range(1)] for row in range(1)]
+        self.tab = [[ [Objet_scene for col in range(3)] for col in range(x)] for row in range(y)]
 
     # Mise a jour de la taille du tableau
     def updateLenght(self, index, columns):
@@ -23,6 +23,7 @@ class My3DArray():
 
     # Mise a jour des éléments du tableau
     def updateElement(self, Objet : Objet_scene):
+        print("Objet get position: ", Objet.get_position())
         self.tab[Objet.get_position()[0]][Objet.get_position()[1]][self.checkElement(Objet)] = Objet
 
     # Observer les elements présent dans la troisieme dimension, en renvoyant l'indice où insérer celui-ci
@@ -56,11 +57,13 @@ class ThreadInterface():
         self.root.geometry("1080x720")
         self.root.minsize(520, 400)
         
+
+        self.x, self.y = x, y
         # Créer la matrice
         self.createMatrix(x,y)
 
         # Initialisation du tableau 3d
-        self.array3D = My3DArray()
+        self.array3D = My3DArray(x, y)
 
         # Les queues qui sont nécessaires au worker
         self.queue_elements = queue_elements
@@ -73,6 +76,7 @@ class ThreadInterface():
         while True:
             if not self.queue_elements.empty():
                 self.insertElement(self.queue_elements.get_nowait())
+            self.createMatrix(self.x,self.y)
             self.root.update()
 
 
@@ -100,7 +104,7 @@ class ThreadInterface():
 
     # Fonction qui permet d'inserer un element, c'est a dire un robot, une poussiere ou un bijoux dans le manoir, 
     # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
-    def insertElement(Objet_scene, root):
+    def insertElement(self, Objet_scene):
         
         # Deplacement de l'objet s'il s'agit d'un robot
         if Objet_scene.get_name() == 'aspirateur':
@@ -115,6 +119,8 @@ class ThreadInterface():
 
         elif Objet_scene.get_name() == 'bijoux':
             self.array3D.updateElement(Objet_scene)
+
+        self.array3D.updateElement(Objet_scene)
 
 
         # Creation d'un objet photo-image de l'image de l'élément concerné
