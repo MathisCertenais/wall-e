@@ -17,6 +17,7 @@ print("qqqqq"+str(self))
 createMatrix(5, 5, root)
 insertElement(poussiere, root)
 insertElement(aspirateur, root)
+insertElement(bijoux, root)
 
 
 # Affichage de la fenêtre

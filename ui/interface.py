@@ -31,9 +31,19 @@ class My3DArray():
 
     # Mise a jour des éléments du tableau
     def updateElement(self, Objet : Objet_scene):
-        # faire boucle pour la 3e dimension 
-        print(Objet.get_position()[0])
-        self.tab[Objet.get_position()[0]][Objet.get_position()[1]][0] = Objet
+        self.tab[Objet.get_position()[0]][Objet.get_position()[1]][self.checkElement(Objet)] = Objet
+
+    # Observer les elements présent dans la troisieme dimension, en renvoyant l'indice où insérer celui-ci
+    def checkElement(self, Objet : Objet_scene):
+        # Renvoyer l'indice 0 s'il s'agit d'un poussiere
+        if (Objet.get_name() == 'poussiere'):
+            return 0
+        # Renvoyer l'indice 1 s'il s'agit d'un bijoux
+        if (Objet.get_name() == 'bijoux'):
+            return 1
+        # Renvoyer l'indice 2 s'il s'agit d'un robot
+        return 2
+
 
     # Fonction toString pour afficher le contenu du tableau 3d
     def get3DArray(self):
