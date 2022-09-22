@@ -8,6 +8,11 @@ Created on Fri Sep 16 20:54:46 2022
 #Imports
 from queue import Queue
 from objet_element.bijoux import *
+from Tree.tree_arbre import *
+from Tree.tree_feuille import *
+from Tree.tree_noeud import *
+
+
 
 # Imports Threads
 from ui.interface import ThreadInterface
