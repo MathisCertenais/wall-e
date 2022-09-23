@@ -12,7 +12,6 @@ from Tree.tree_noeud import Noeud
 class Arbre : 
     def __init__(self,pos_x,pos_y,itab):
         self.val = Noeud(itab[pos_x][pos_y])
-        self.fils = Feuille()
         self.tab = itab #tableau 3d en mémoire
         self.construction_arbre(pos_x,pos_y,itab)
     
@@ -31,20 +30,12 @@ class Arbre :
     def insert_obj(self,tab,i,j):
         rows = len(tab)
         cols = len(tab[0])
-        fils = Feuille()
         while(0<=i<=cols & 0<=j<=rows):
-            self.filsN = Arbre(i,j,tab)
-                    #arbre_tmp = Arbre(i,j,tab)
-                    #fils.insert_noeud(arbre_tmp)
-        return fils #liste des fils à l'index (i,j)
+            self.filsN = Arbre(i,j - 1,tab)
+            self.filsS = Arbre(i,j + 1,tab)
+            self.filsW = Arbre(i- 1 ,j,tab)
+            self.filsE = Arbre(i+ 1,j,tab)
 
-                
-    def verification_feuille(self,pere,feuille_lst):
-        verite = True
-        for i in (0,len(feuille_lst),1):
-            if (feuille_lst[i] == pere):
-                verite = False
-        return verite
     
     def construction_arbre(self,pos_x,pos_y,itab):
         self.val = Noeud(itab[pos_x][pos_y]) #pere
@@ -52,12 +43,8 @@ class Arbre :
         cols = len(itab[0])
         for i in (0,cols,1):
             for j in (0,rows,1):
-                arbre_enfant = self.insert_obj(itab,i,j)
-                if(self.verification_feuille(self.val,arbre_enfant)):
-                    self.insert_fils(arbre_enfant)
-                #debug
-                #print("list_fille")
-                #print(arbre_enfant.get_list())
+                self.insert_obj(itab,i,j)
+                
                 
     def show(self):
         while(self.est_vide() == False):
