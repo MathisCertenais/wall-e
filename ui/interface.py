@@ -9,17 +9,19 @@ from PIL import Image, ImageTk
 
 from objet_element.objet_scene import *
 
+# Liste de la 3e dimension de la matrice qui accueillera les Objets
+objetDimension = list()
 # Classe du tableau 3d qui contiendra les Objets
 class My3DArray():
-    tab = [[ [Objet_scene for col in range(3)] for col in range(1)] for row in range(1)]
+    tab = [[ [Objet_scene for col in range(objetDimension)] for col in range(1)] for row in range(1)]
     # Initilialisation
     def __init__(self, x=5, y=5):
         # Creation d'un Arrays 3d
-        self.tab = [[ [Objet_scene for col in range(3)] for col in range(x)] for row in range(y)]
+        self.tab = [[ [Objet_scene for col in range(objetDimension)] for col in range(1)] for row in range(1)]
 
     # Mise a jour de la taille du tableau
-    def updateLenght(self, index, columns):
-        self.tab = [[ [Objet_scene for col in range(3)] for col in range(index)] for row in range(columns)]
+    def updateLength(self, index, columns):
+        self.tab = [[ [Objet_scene for col in range(objetDimension)] for col in range(index)] for row in range(columns)]
 
     # Mise a jour des éléments du tableau
     def updateElement(self, Objet : Objet_scene):
@@ -37,6 +39,44 @@ class My3DArray():
         # Renvoyer l'indice 2 s'il s'agit d'un robot
         return 2
 
+    # Retourner le nombre de poussières présent à l'index et la colonne entré en paramètre
+    def getDustNumber(self, index, columns):
+        # Mise a zero du compteur
+        cpt = 0
+        # Recuperation de liste contenant des Objets aux coordonnées récupérés en paramètre
+        tab =  self.tab(index, columns)
+        # Parcours du tableau pour récupérer le nombre de poussiere
+        for x in tab:
+            if (x.get_name() == 'poussiere'):
+                cpt += 1
+
+        return cpt
+
+    # Retourner le nombre de bijoux présent à l'index et la colonne entré en paramètre
+    def getJewelryNumber(self, index, columns):
+        # Mise a zero du compteur
+        cpt = 0
+        # Recuperation de liste contenant des Objets aux coordonnées récupérés en paramètre
+        tab =  self.tab(index, columns)
+        # Parcours du tableau pour récupérer le nombre de bijoux
+        for x in tab:
+            if (x.get_name() == 'bijoux'):
+                cpt += 1
+                
+        return cpt
+
+    # Retourner le nombre de poussières présent à l'index et la colonne entré en paramètre
+    def getDustNumber(self, index, columns):
+        # Mise a zero du compteur
+        cpt = 0
+        # Recuperation de liste contenant des Objets aux coordonnées récupérés en paramètre
+        tab =  self.tab(index, columns)
+        # Parcours du tableau pour récupérer le nombre de poussiere
+        for x in tab:
+            if (x.get_name() == 'poussiere'):
+                cpt += 1
+                
+        return cpt
 
     # Fonction toString pour afficher le contenu du tableau 3d
     def get3DArray(self):
@@ -114,15 +154,18 @@ class ThreadInterface():
             self.array3D.updateElement(Objet_scene)
 
         # Ajout de l'objet s'il s'agit d'une poussiere ou d'un bijoux
-        elif Objet_scene.get_name() == 'poussiere':
+        elif Objet_scene.get_name() == 'poussiere' or Objet_scene.get_name() == 'bijoux':
             self.array3D.updateElement(Objet_scene)
 
+<<<<<<< HEAD
         elif Objet_scene.get_name() == 'bijoux':
             self.array3D.updateElement(Objet_scene)
 
         self.array3D.updateElement(Objet_scene)
 
 
+=======
+>>>>>>> 329494a9e9b4bd310b209371d770d836239e5e86
         # Creation d'un objet photo-image de l'image de l'élément concerné
         image = Image.open(Objet_scene.get_path())
 
