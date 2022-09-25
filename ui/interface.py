@@ -13,9 +13,10 @@ from objet_element.objet_scene import *
 class My3DArray():
     tab = [[ [Objet_scene for col in range(3)] for col in range(1)] for row in range(1)]
     # Initilialisation
-    def __init__(self):
+    def __init__(self, x=5, y=5):
         # Creation d'un Arrays 3d
-        self.tab = [[ [Objet_scene for col in range(3)] for col in range(1)] for row in range(1)]
+        self.x, self.y = x,y
+        self.tab = [[ [Objet_scene for col in range(3)] for col in range(x)] for row in range(y)]
 
     # Mise a jour de la taille du tableau
     def updateLenght(self, index, columns):
@@ -24,6 +25,15 @@ class My3DArray():
     # Mise a jour des éléments du tableau
     def updateElement(self, Objet : Objet_scene):
         self.tab[Objet.get_position()[0]][Objet.get_position()[1]][self.checkElement(Objet)] = Objet
+
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+    def get_value(self, x, y):
+        return self.tab[x][y]
 
     # Observer les elements présent dans la troisieme dimension, en renvoyant l'indice où insérer celui-ci
     def checkElement(self, Objet : Objet_scene):

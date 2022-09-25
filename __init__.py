@@ -6,9 +6,7 @@ from ui.interface import *
 from Tree.tree_arbre import Arbre
 
 
-bijoux = Bijoux(1,3)
-aspirateur = Aspirateur(2,3)
-poussiere = Poussiere(1,2)
+
 '''
 self = [[[Objet_scene for col in range(3)] for row in range(5)] for row in range(5)]
 self[1][0][0] = 1
@@ -25,6 +23,10 @@ print("qqqqq"+str(self))
 #root.mainloop()
 
 # Création d'un arbre
-tab = [[1,2,3,4,5],[6,7,8,9,10]]
-m_arbre = Arbre(0, 0, tab)
-#m_arbre.show()
+
+print("Start")
+matrice = My3DArray(3,3)
+print("Arbre")
+arbre = Arbre(0,0,matrice)
+print("Affichage")
+arbre.parcourir()

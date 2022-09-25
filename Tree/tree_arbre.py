@@ -4,53 +4,39 @@ Created on Thu Sep 22 11:48:59 2022
 
 @author: aboug
 """
-from Tree.tree_feuille import Feuille
 from Tree.tree_noeud import Noeud
 
 
 
 class Arbre : 
     def __init__(self,pos_x,pos_y,itab):
-        self.val = Noeud(itab[pos_x][pos_y])
-        self.tab = itab #tableau 3d en mémoire
-        self.construction_arbre(pos_x,pos_y,itab)
-    
-    def insert_fils(self, arbre_fils):
-        self.fils.insert_noeud(arbre_fils)
         
-    def get_val(self):
-        return self.val.get_obj() #return la list d'objet
-    
-    def get_feuille(self):
-        return self.fils.get_list ()
-    
-    def est_vide(arbre):
-        return arbre is None
-    
-    def insert_obj(self,tab,i,j):
-        rows = len(tab)
-        cols = len(tab[0])
-        while(0<=i<=cols & 0<=j<=rows):
-            self.filsN = Arbre(i,j - 1,tab)
-            self.filsS = Arbre(i,j + 1,tab)
-            self.filsW = Arbre(i- 1 ,j,tab)
-            self.filsE = Arbre(i+ 1,j,tab)
+        self.pos_x, self.pos_y = pos_x, pos_y
+        self.tab = itab #tableau 3d en mémoire
+        self.max_x, self.max_y = self.tab.get_x(), self.tab.get_y()
+        self.memory_map = {}
 
-    
-    def construction_arbre(self,pos_x,pos_y,itab):
-        self.val = Noeud(itab[pos_x][pos_y]) #pere
-        rows = len(itab)
-        cols = len(itab[0])
-        for i in (0,cols,1):
-            for j in (0,rows,1):
-                self.insert_obj(itab,i,j)
+        self.racine = self.construction_arbre(self.pos_x, self.pos_y)
+        
+
+    def construction_arbre(self,x,y):
+        if (x >= 0 and x < self.max_x and y >= 0 and y < self.max_y):
+            tuple_pos = [str(x),str(y)]
+            tuple_pos_string = ','.join(tuple_pos)
+            if (tuple_pos_string in self.memory_map):
+                return self.memory_map[tuple_pos_string]
+            else:
+                self.memory_map[tuple_pos_string] = Noeud(self.tab.get_value(x, y))
+                self.memory_map[tuple_pos_string].setNoeudN(self.construction_arbre(x, y+1))
+                self.memory_map[tuple_pos_string].setNoeudS(self.construction_arbre(x, y-1))
+                self.memory_map[tuple_pos_string].setNoeudE(self.construction_arbre(x+1, y))
+                self.memory_map[tuple_pos_string].setNoeudW(self.construction_arbre(x-1, y))
+                return self.memory_map[tuple_pos_string]
+        else:
+            return None
                 
-                
-    def show(self):
-        while(self.est_vide() == False):
-            N = str(self.get_val())
-            F = str(self.get_feuille())
-            print("N : " + N)
-            print("-> " + F)
+    def parcourir(self):
+        print(self.memory_map)
+        
             
         
