@@ -9,19 +9,19 @@ from PIL import Image, ImageTk
 
 from objet_element.objet_scene import *
 
-# Liste de la 3e dimension de la matrice qui accueillera les Objets
-objetDimension = list()
+objetDimension = []
 # Classe du tableau 3d qui contiendra les Objets
 class My3DArray():
-    tab = [[ [Objet_scene for col in range(objetDimension)] for col in range(1)] for row in range(1)]
+    # Tableau 3d avec une liste qui représente la 3e dimension, et qui accueillera les Objets 
+    tab = [[ [] for col in range(1)] for row in range(1)]
     # Initilialisation
     def __init__(self):
         # Creation d'un Arrays 3d
-        self.tab = [[ [Objet_scene for col in range(objetDimension)] for col in range(1)] for row in range(1)]
+        self.tab = [[ [] for col in range(1)] for row in range(1)]
 
     # Mise a jour de la taille du tableau
     def updateLength(self, index, columns):
-        self.tab = [[ [Objet_scene for col in range(objetDimension)] for col in range(index)] for row in range(columns)]
+        self.tab = [[ [] for col in range(index)] for row in range(columns)]
 
     # Mise a jour des éléments du tableau
     def updateElement(self, Objet : Objet_scene):
@@ -38,31 +38,21 @@ class My3DArray():
         # Renvoyer l'indice 2 s'il s'agit d'un robot
         return 2
 
-    # Retourner le nombre de poussières présent à l'index et la colonne entré en paramètre
-    def getDustNumber(self, index, columns):
+    # Retourner le nombre de poussières et de bijoux présent à l'index et la colonne entré en paramètre
+    def getElementNumber(self, index, columns):
         # Mise a zero du compteur
-        cpt = 0
+        doublet = 2*[0]
         # Recuperation de liste contenant des Objets aux coordonnées récupérés en paramètre
         tab =  self.tab(index, columns)
-        # Parcours du tableau pour récupérer le nombre de poussiere
+        # Parcours du tableau pour récupérer le nombre de poussieres et de bijoux
         for x in tab:
             if (x.get_name() == 'poussiere'):
-                cpt += 1
+                doublet[0] += 1
 
-        return cpt
+            elif (x.get_name() == 'bijoux'):
+                doublet[1] += 1
 
-    # Retourner le nombre de bijoux présent à l'index et la colonne entré en paramètre
-    def getJewelryNumber(self, index, columns):
-        # Mise a zero du compteur
-        cpt = 0
-        # Recuperation de liste contenant des Objets aux coordonnées récupérés en paramètre
-        tab =  self.tab(index, columns)
-        # Parcours du tableau pour récupérer le nombre de bijoux
-        for x in tab:
-            if (x.get_name() == 'bijoux'):
-                cpt += 1
-                
-        return cpt
+        return doublet
 
     # Retourner le nombre de poussières présent à l'index et la colonne entré en paramètre
     def getDustNumber(self, index, columns):
@@ -150,17 +140,32 @@ class ThreadInterface():
             self.array3D.updateElement(Objet_scene)
 
         # Ajout de l'objet s'il s'agit d'une poussiere ou d'un bijoux
-        elif Objet_scene.get_name() == 'poussiere' or Objet_scene.get_name() == 'bijoux':
+        elif Objet_scene.get_name() == 'poussiere':
             self.array3D.updateElement(Objet_scene)
+            # Recuperation du nombre de poussiere dans la case concernée
+            element = self.getElementNumber(Objet_scene.get_position()[0], Objet_scene.get_position()[1])[0]
+
+        elif Objet_scene.get_name() == 'bijoux':
+            # Recuperation du nombre de bijoux dans la case concernée
+            element = self.getElementNumber(Objet_scene.get_position()[0], Objet_scene.get_position()[1])[1]
 
         # Creation d'un objet photo-image de l'image de l'élément concerné
         image = Image.open(Objet_scene.get_path())
+        # Si y a deja cette image, ne pas lajouter
+        
+        # Couper l'image en 2 si y a un autre element
+
 
         # Redimensionnement de l'image
         resized_image= image.resize((95,95), Image.ANTIALIAS)
         new_image= ImageTk.PhotoImage(resized_image)
         label = tkinter.Label(image=new_image)
         label.image = new_image
+        # Ajout du compteur
+        element
+        text = Label(self, text=element)
+        text.place(x=Objet_scene.get_position_pixel()[0], y=Objet_scene.get_position_pixel()[1])
+
         # Position de l'image
         label.place(x=Objet_scene.get_position_pixel()[0], y=Objet_scene.get_position_pixel()[1])
         return
