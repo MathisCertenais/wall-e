@@ -1,6 +1,7 @@
 #import numpy as np
 #import pandas as pd
 import sys
+import copy
 # Librairie pour les fenêtres
 import tkinter
 from tkinter import *
@@ -51,8 +52,8 @@ class My3DArray():
     def get3DArray(self):
         return self.tab
 
-    def __str__(self):
-        return print(self.tab)
+    # def __str__(self):
+    #     return print(self.tab)
 
 
 
@@ -110,7 +111,7 @@ class ThreadInterface():
 
     # Fonction qui permet d'inserer un element, c'est a dire un robot, une poussiere ou un bijoux dans le manoir, 
     # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
-    def insertElement(Objet_scene, root):
+    def insertElement(self,Objet_scene):
         
         # Deplacement de l'objet s'il s'agit d'un robot
         if Objet_scene.get_name() == 'aspirateur':
@@ -138,6 +139,10 @@ class ThreadInterface():
         # Position de l'image
         label.place(x=Objet_scene.get_position_pixel()[0], y=Objet_scene.get_position_pixel()[1])
         return
+
+    # Retourne une image de l'environnement à l'instant T
+    def photoshoot_env(self):
+        return copy.deepcopy(self.array3D)
 
     # Fonction qui permet d'aspirer un element, c'est a dire une poussiere ou un bijoux dans le manoir, 
     # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage

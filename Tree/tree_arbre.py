@@ -17,6 +17,8 @@ class Arbre :
         self.memory_map = {}
 
         self.racine = self.construction_arbre(self.pos_x, self.pos_y)
+
+        self.plan = []
         
 
     def construction_arbre(self,x,y):
@@ -34,7 +36,43 @@ class Arbre :
                 return self.memory_map[tuple_pos_string]
         else:
             return None
-                
+
+    def clean_plan(self):
+        self.plan = []
+
+    def getPlan(self):
+        return self.plan
+
+    def Depth_first_begin(self):
+        self.Depth_first(self.racine)
+
+    # Le sens choisi pour l'algo est Nord, Sud, Est et Ouest.
+    def Depth_first(self, noeud):
+        if noeud is not None:
+            value = noeud.get_obj()
+            if 1 == 0:
+                self.plan.append("aspirer")
+                return True
+            else:
+                if self.Depth_first(noeud.getNoeudN()):
+                    self.plan.append("haut")
+                    return True
+                elif self.Depth_first(noeud.getNoeudS()):
+                    self.plan.append("descend")
+                    return True
+                elif self.Depth_first(noeud.getNoeudE()):
+                    self.plan.append("droite")
+                    return True
+                elif self.Depth_first(noeud.getNoeudW()):
+                    self.plan.append("gauche")
+                    return True
+                else:
+                    return False
+
+            pass
+        else:
+            return False
+
     def parcourir(self):
         print(self.memory_map)
         
