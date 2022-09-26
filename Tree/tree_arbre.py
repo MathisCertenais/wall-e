@@ -7,7 +7,6 @@ Created on Thu Sep 22 11:48:59 2022
 from Tree.tree_noeud import Noeud
 
 
-
 class Arbre : 
     def __init__(self,pos_x,pos_y,itab):
         
@@ -22,6 +21,8 @@ class Arbre :
         self.memory_map_recherche = {}
 
         self.frontiere = []
+
+        self.i = 0
         
 
     def construction_arbre(self,x,y):
@@ -93,37 +94,119 @@ class Arbre :
     #Recherche en largeur
     def Breadth_first(self):
         self.clean_plan()
+        return self.Breadth_first_recursive([[self.racine, []]])
 
-
-    def Breadth_first_frontiere(self, noeud):
-        if noeud.getNoeudN() is not None:
-            valeur = noeud.getNoeudN().get_obj()
-            if self.poussiereIn(valeur):
+    def Breadth_first_recursive(self, list_noeuds):
+        self.frontiere = []
+        print("IIII: ",self.i)
+        for noeuds in list_noeuds:
+            noeud = noeuds[0]
+            mouvement = noeuds[1]
+            key = str(noeud.get_x())+","+str(noeud.get_y())
+            self.memory_map_recherche[key] = noeud
+            if self.Breadth_first_frontiere(noeud, mouvement):
+                
                 return True
-            else:
-                self.frontiere.append(noeud)
 
-        if noeud.getNoeudS() is not None:
-            valeur = noeud.getNoeudS().get_obj()
-            if self.poussiereIn(valeur):
-                return True
-            else:
-                self.frontiere.append(noeud)
+        if not self.frontiere:
+            return False
 
-        if noeud.getNoeudE() is not None:
-            valeur = noeud.getNoeudE().get_obj()
-            if self.poussiereIn(valeur):
-                return True
-            else:
-                self.frontiere.append(noeud)
+        print("Frontiere: ", self.frontiere)
+        for noeuds in self.frontiere:
+            noeud = noeuds[0]
+            key = str(noeud.get_x())+","+str(noeud.get_y()) 
+            print("Noeud: ", key, " Value: ", noeud.get_obj())
 
-        if noeud.getNoeudW() is not None:
-            valeur = noeud.getNoeudW().get_obj()
-            if self.poussiereIn(valeur):
-                return True
-            else:
-                self.frontiere.append(noeud)
+        print("\n\n")
         
+        return self.Breadth_first_recursive(self.frontiere)
+
+    def Breadth_first_frontiere(self, noeud, mouvement):
+        print("mouvement: ", mouvement)
+        if noeud is not None:
+            
+            key = str(noeud.get_x())+","+str(noeud.get_y())
+            print("Noeud: ", key, " Value: ", noeud.get_obj())
+            
+
+            
+            if noeud.getNoeudN() is not None:
+                print("Noeud N")
+                key = str(noeud.getNoeudN().get_x())+","+str(noeud.getNoeudN().get_y())
+                if key in self.memory_map_recherche:
+                    pass
+                else:
+                    valeur = noeud.getNoeudN().get_obj()
+                    copy_mov = mouvement.copy()
+                    copy_mov.append("haut")
+                    print("movem: ", copy_mov)
+                    if self.poussiereIn(valeur):
+                        copy_mov.append("aspirer")
+                        self.plan = copy_mov
+                        return True
+                    else:
+                        print("add to frontiere")
+                        
+                        self.frontiere.append([noeud.getNoeudN(), copy_mov])
+
+            if noeud.getNoeudS() is not None:
+                print("Noeud S")
+                key = str(noeud.getNoeudS().get_x())+","+str(noeud.getNoeudS().get_y())
+                if key in self.memory_map_recherche:
+                    pass
+                else:
+                    valeur = noeud.getNoeudS().get_obj()
+                    copy_mov = mouvement.copy()
+                    copy_mov.append("descend")
+                    print("movem: ", copy_mov)
+                    if self.poussiereIn(valeur):
+                        copy_mov.append("aspirer")
+                        self.plan = copy_mov
+                        return True
+                    else:
+                        print("add to frontiere")
+                        
+                        self.frontiere.append([noeud.getNoeudS(),copy_mov])
+
+            if noeud.getNoeudE() is not None:
+                print("Noeud E")
+                key = str(noeud.getNoeudE().get_x())+","+str(noeud.getNoeudE().get_y())
+                if key in self.memory_map_recherche:
+                    pass
+                else:
+                    valeur = noeud.getNoeudE().get_obj()
+                    copy_mov = mouvement.copy()
+                    copy_mov.append("droite")
+                    print("movem: ", copy_mov)
+                    if self.poussiereIn(valeur):
+                        copy_mov.append("aspirer")
+                        self.plan = copy_mov
+                        return True
+                    else:
+                        print("add to frontiere")
+                        
+                        self.frontiere.append([noeud.getNoeudE(), copy_mov])
+
+            if noeud.getNoeudW() is not None:
+                print("Noeud W")
+                key = str(noeud.getNoeudW().get_x())+","+str(noeud.getNoeudW().get_y())
+                if key in self.memory_map_recherche:
+                    pass
+                else:
+                    valeur = noeud.getNoeudW().get_obj()
+                    copy_mov = mouvement.copy()
+                    copy_mov.append("descend")
+                    print("movem: ", copy_mov)
+                    if self.poussiereIn(valeur):
+                        copy_mov.append("aspirer")
+                        self.plan = copy_mov
+                        return True
+                    else:
+                        print("add to frontiere")
+                        
+                        self.frontiere.append([noeud.getNoeudW(), copy_mov])
+
+
         return False
         
 
