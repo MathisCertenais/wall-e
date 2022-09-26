@@ -20,6 +20,8 @@ class Arbre :
 
         self.plan = []
         self.memory_map_recherche = {}
+
+        self.frontiere = []
         
 
     def construction_arbre(self,x,y):
@@ -64,21 +66,21 @@ class Arbre :
                 return False
             value = noeud.get_obj()
             if self.poussiereIn(value):
-                self.plan.append("aspirer")
+                self.plan.insert(0,"aspirer")
                 return True
             else:
                 self.memory_map_recherche[key] = noeud
                 if self.Depth_first(noeud.getNoeudN()):
-                    self.plan.append("haut")
+                    self.plan.insert(0,"haut")
                     return True
                 elif self.Depth_first(noeud.getNoeudS()):
-                    self.plan.append("descend")
+                    self.plan.insert(0, "descend")
                     return True
                 elif self.Depth_first(noeud.getNoeudE()):
-                    self.plan.append("droite")
+                    self.plan.insert(0,"droite")
                     return True
                 elif self.Depth_first(noeud.getNoeudW()):
-                    self.plan.append("gauche")
+                    self.plan.insert(0, "gauche")
                     return True
                 else:
                     return False
@@ -86,6 +88,45 @@ class Arbre :
             pass
         else:
             return False
+
+
+    #Recherche en largeur
+    def Breadth_first(self):
+        self.clean_plan()
+
+
+    def Breadth_first_frontiere(self, noeud):
+        if noeud.getNoeudN() is not None:
+            valeur = noeud.getNoeudN().get_obj()
+            if self.poussiereIn(valeur):
+                return True
+            else:
+                self.frontiere.append(noeud)
+
+        if noeud.getNoeudS() is not None:
+            valeur = noeud.getNoeudS().get_obj()
+            if self.poussiereIn(valeur):
+                return True
+            else:
+                self.frontiere.append(noeud)
+
+        if noeud.getNoeudE() is not None:
+            valeur = noeud.getNoeudE().get_obj()
+            if self.poussiereIn(valeur):
+                return True
+            else:
+                self.frontiere.append(noeud)
+
+        if noeud.getNoeudW() is not None:
+            valeur = noeud.getNoeudW().get_obj()
+            if self.poussiereIn(valeur):
+                return True
+            else:
+                self.frontiere.append(noeud)
+        
+        return False
+        
+
 
     def parcourir(self):
         print(self.memory_map)

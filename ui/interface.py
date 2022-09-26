@@ -142,32 +142,11 @@ class ThreadInterface():
 
     # Fonction qui permet d'inserer un element, c'est a dire un robot, une poussiere ou un bijoux dans le manoir, 
     # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
-<<<<<<< HEAD
-    def insertElement(self, Objet_scene):
-=======
     def insertElement(self,Objet_scene):
->>>>>>> 13-tr-generation-de-larbre
-        
-        # Deplacement de l'objet s'il s'agit d'un robot
-        if Objet_scene.get_name() == 'aspirateur':
-            # Suppression de l'image du robot sur l'interface
-            # Suppression de l'objet robot dans le tableau 3d
-            # Ajout de l'objet robot au nouvel emplacement dans le tableau 3d
-            self.array3D.updateElement(Objet_scene)
-
-        # Ajout de l'objet s'il s'agit d'une poussiere ou d'un bijoux
-        elif Objet_scene.get_name() == 'poussiere' or Objet_scene.get_name() == 'bijoux':
-            self.array3D.updateElement(Objet_scene)
-
-<<<<<<< HEAD
-        elif Objet_scene.get_name() == 'bijoux':
-            self.array3D.updateElement(Objet_scene)
 
         self.array3D.updateElement(Objet_scene)
 
 
-=======
->>>>>>> 329494a9e9b4bd310b209371d770d836239e5e86
         # Creation d'un objet photo-image de l'image de l'élément concerné
         image = Image.open(Objet_scene.get_path())
 
