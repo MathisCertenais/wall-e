@@ -6,8 +6,9 @@ Created on Fri Sep 16 20:32:03 2022
 """
 
 class Noeud : 
-    def __init__(self,obj,noeudN=None,noeudS=None, noeudW=None, noeudE=None):
+    def __init__(self,obj, x, y,noeudN=None,noeudS=None, noeudW=None, noeudE=None):
         self.obj = obj #liste des objet poussière, bijoux ou robot
+        self.x, self.y = x, y
         self.noeudN = noeudN
         self.noeudS = noeudS
         self.noeudW = noeudW
@@ -39,6 +40,12 @@ class Noeud :
 
     def get_obj(self):
         return self.obj
+
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
     
     
         

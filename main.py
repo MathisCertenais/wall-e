@@ -8,6 +8,7 @@ Created on Fri Sep 16 20:54:46 2022
 #Imports
 from queue import Queue
 from objet_element.bijoux import *
+from objet_element.poussiere import *
 from Tree.tree_arbre import *
 from Tree.tree_noeud import *
 
@@ -19,9 +20,11 @@ from objet_element.main import ThreadEnvironnement
 from robot.Robot import ThreadRobot
 
 bijoux = Bijoux(1,3)
+poussiere = Poussiere(2,3)
 #Créer sync queues
 queue_elements = Queue()
 queue_elements.put(bijoux)
+queue_elements.put(poussiere)
 
 #Créer thread objets
 TI = ThreadInterface(queue_elements)

@@ -19,6 +19,7 @@ class Arbre :
         self.racine = self.construction_arbre(self.pos_x, self.pos_y)
 
         self.plan = []
+        self.memory_map_recherche = {}
         
 
     def construction_arbre(self,x,y):
@@ -28,9 +29,9 @@ class Arbre :
             if (tuple_pos_string in self.memory_map):
                 return self.memory_map[tuple_pos_string]
             else:
-                self.memory_map[tuple_pos_string] = Noeud(self.tab.get_value(x, y))
-                self.memory_map[tuple_pos_string].setNoeudN(self.construction_arbre(x, y+1))
-                self.memory_map[tuple_pos_string].setNoeudS(self.construction_arbre(x, y-1))
+                self.memory_map[tuple_pos_string] = Noeud(self.tab.get_value(x, y), x, y)
+                self.memory_map[tuple_pos_string].setNoeudN(self.construction_arbre(x, y-1))
+                self.memory_map[tuple_pos_string].setNoeudS(self.construction_arbre(x, y+1))
                 self.memory_map[tuple_pos_string].setNoeudE(self.construction_arbre(x+1, y))
                 self.memory_map[tuple_pos_string].setNoeudW(self.construction_arbre(x-1, y))
                 return self.memory_map[tuple_pos_string]
@@ -39,21 +40,34 @@ class Arbre :
 
     def clean_plan(self):
         self.plan = []
+        self.memory_map_recherche = {}
 
     def getPlan(self):
         return self.plan
 
+    def poussiereIn(self, liste):
+        print("value from x,y: ", liste)
+        for element in liste:
+            if element.get_name() == "poussiere":
+                return True
+        return False
+
     def Depth_first_begin(self):
+        self.clean_plan()
         self.Depth_first(self.racine)
 
     # Le sens choisi pour l'algo est Nord, Sud, Est et Ouest.
     def Depth_first(self, noeud):
         if noeud is not None:
+            key = str(noeud.get_x())+","+str(noeud.get_y())
+            if key in self.memory_map_recherche:
+                return False
             value = noeud.get_obj()
-            if 1 == 0:
+            if self.poussiereIn(value):
                 self.plan.append("aspirer")
                 return True
             else:
+                self.memory_map_recherche[key] = noeud
                 if self.Depth_first(noeud.getNoeudN()):
                     self.plan.append("haut")
                     return True
