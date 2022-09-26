@@ -21,11 +21,14 @@ from robot.Robot import ThreadRobot
 
 bijoux = Bijoux(1,3)
 poussiere = Poussiere(2,3)
+poussiere2 = Poussiere(3,4)
+poussiere3 = Poussiere(1,2)
 #Créer sync queues
 queue_elements = Queue()
 queue_elements.put(bijoux)
 queue_elements.put(poussiere)
-
+queue_elements.put(poussiere2)
+queue_elements.put(poussiere3)
 #Créer thread objets
 TI = ThreadInterface(queue_elements)
 TE = ThreadEnvironnement(queue_elements)
