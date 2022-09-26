@@ -37,7 +37,12 @@ class ThreadRobot(threading.Thread):
 
             #Exploration
             self.arbre.clean_plan()
-            self.arbre.Depth_first_begin()
+            # self.arbre.Depth_first_begin()
+            # print(self.arbre.getPlan())
+
+            print("Breadth_first: ")
+            print(self.arbre.Breadth_first())
+            print("Breadth_first finish")
             print(self.arbre.getPlan())
 
             #JustDoIt()
