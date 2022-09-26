@@ -37,6 +37,9 @@ class My3DArray():
     def get_value(self, x, y):
         return self.tab[x][y]
 
+    def set_value(self, x, y, tab_value):
+        self.tab[x][y] = tab_value
+
     # Retourner le nombre de poussières présent à l'index et la colonne entré en paramètre
     def getDustNumber(self, index, columns):
         # Mise a zero du compteur
@@ -106,6 +109,9 @@ class ThreadInterface():
         # Les queues qui sont nécessaires au worker
         self.queue_elements = queue_elements
 
+        #score du robot
+        self.score = 0
+
 
 
     # Fonctions lancés par thread.start et qui tournera en boucle
@@ -113,9 +119,34 @@ class ThreadInterface():
         self.root.update()
         while True:
             if not self.queue_elements.empty():
-                self.insertElement(self.queue_elements.get_nowait())
-            self.createMatrix(self.x,self.y)
+                objet_queue = self.queue_elements.get_nowait()
+                if objet_queue.get_name() =="aspirateur":
+                    position_x, position_y = objet_queue.get_position()[0], objet_queue.get_position()[1]
+                    for action in objet_queue.getAction():
+                        if action == "aspirer":
+                            for element in self.array3D.get_value(position_x, position_y):
+                                if element.get_name() == "bijoux":
+                                    self.score -= element.get_point()
+                                else:
+                                    self.score += element.get_point()
+                            self.array3D.set_value(position_x, position_y, [])
+                            pass
+                        elif action == "ramasser":
+                            new_liste = []
+                            for element in self.array3D.get_value(position_x, position_y):
+                                if element.get_name() == "bijoux":
+                                    self.score += element.get_point()
+                                else:
+                                    new_liste.append(element)
+                            self.array3D.set_value(position_x, position_y, new_liste)
+                            pass
+                        elif action == "bouger":
+                            self.score -= 1
+                self.insertElement(objet_queue)
+                print("Score: ", self.score)
+                self.createMatrix(self.x,self.y)
             self.root.update()
+            
 
 
     # Fonction qui permet de générer le manoir, avec comme paramètre le nombre de ligne et de colonne de la matrice, et la fenêtre d'affichage

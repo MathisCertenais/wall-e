@@ -30,16 +30,20 @@ class ThreadRobot(threading.Thread):
             x, y = pos_list[0], pos_list[1]
             if action == "descend":
                 self.aspirateur.set_position(x,y+1)
+                self.aspirateur.addAction("bouger")
             elif action == "haut":
                 self.aspirateur.set_position(x,y-1)
+                self.aspirateur.addAction("bouger")
             elif action == "droite":
                 self.aspirateur.set_position(x+1,y)
+                self.aspirateur.addAction("bouger")
             elif action == "gauche":
                 self.aspirateur.set_position(x-1,y)
+                self.aspirateur.addAction("bouger")
             elif action == "aspirer":
-                pass
+                self.aspirateur.addAction("aspirer")
             elif action == "ramasser":
-                pass
+                self.aspirateur.addAction("ramasser")
             self.queue_elements.put(self.aspirateur)
             time.sleep(1)
 

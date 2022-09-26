@@ -49,9 +49,16 @@ class Arbre :
         return self.plan
 
     def poussiereIn(self, liste):
-        print("value from x,y: ", liste)
+        print("Poussiere: value from x,y: ", liste)
         for element in liste:
             if element.get_name() == "poussiere":
+                return True
+        return False
+
+    def bijouxIn(self, liste):
+        print("Bijoux: value from x,y: ", liste)
+        for element in liste:
+            if element.get_name() == "bijoux":
                 return True
         return False
 
@@ -68,6 +75,11 @@ class Arbre :
             value = noeud.get_obj()
             if self.poussiereIn(value):
                 self.plan.insert(0,"aspirer")
+                if self.bijouxIn(value):
+                    self.plan.insert(0, "ramasser")
+                return True
+            elif self.bijouxIn(value):
+                self.plan.insert(0, "ramasser")
                 return True
             else:
                 self.memory_map_recherche[key] = noeud
@@ -141,7 +153,13 @@ class Arbre :
                     copy_mov.append("haut")
                     print("movem: ", copy_mov)
                     if self.poussiereIn(valeur):
+                        if self.bijouxIn(valeur):
+                            copy_mov.append("ramasser")
                         copy_mov.append("aspirer")
+                        self.plan = copy_mov
+                        return True
+                    elif self.bijouxIn(valeur):
+                        copy_mov.append("ramasser")
                         self.plan = copy_mov
                         return True
                     else:
@@ -160,7 +178,13 @@ class Arbre :
                     copy_mov.append("descend")
                     print("movem: ", copy_mov)
                     if self.poussiereIn(valeur):
+                        if self.bijouxIn(valeur):
+                            copy_mov.append("ramasser")
                         copy_mov.append("aspirer")
+                        self.plan = copy_mov
+                        return True
+                    elif self.bijouxIn(valeur):
+                        copy_mov.append("ramasser")
                         self.plan = copy_mov
                         return True
                     else:
@@ -179,7 +203,13 @@ class Arbre :
                     copy_mov.append("droite")
                     print("movem: ", copy_mov)
                     if self.poussiereIn(valeur):
+                        if self.bijouxIn(valeur):
+                            copy_mov.append("ramasser")
                         copy_mov.append("aspirer")
+                        self.plan = copy_mov
+                        return True
+                    elif self.bijouxIn(valeur):
+                        copy_mov.append("ramasser")
                         self.plan = copy_mov
                         return True
                     else:
@@ -195,10 +225,16 @@ class Arbre :
                 else:
                     valeur = noeud.getNoeudW().get_obj()
                     copy_mov = mouvement.copy()
-                    copy_mov.append("descend")
+                    copy_mov.append("gauche")
                     print("movem: ", copy_mov)
                     if self.poussiereIn(valeur):
+                        if self.bijouxIn(valeur):
+                            copy_mov.append("ramasser")
                         copy_mov.append("aspirer")
+                        self.plan = copy_mov
+                        return True
+                    elif self.bijouxIn(valeur):
+                        copy_mov.append("ramasser")
                         self.plan = copy_mov
                         return True
                     else:
