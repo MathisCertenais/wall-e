@@ -1,6 +1,7 @@
 #import numpy as np
 #import pandas as pd
 import sys
+import copy
 # Librairie pour les fenêtres
 import tkinter
 from tkinter import *
@@ -13,31 +14,28 @@ from objet_element.objet_scene import *
 objetDimension = list()
 # Classe du tableau 3d qui contiendra les Objets
 class My3DArray():
-    tab = [[ [Objet_scene for col in range(objetDimension)] for col in range(1)] for row in range(1)]
     # Initilialisation
     def __init__(self, x=5, y=5):
         # Creation d'un Arrays 3d
-        self.tab = [[ [Objet_scene for col in range(objetDimension)] for col in range(1)] for row in range(1)]
+        self.x, self.y = x,y
+        self.tab = [[ [] for col in range(x)] for row in range(y)]
 
     # Mise a jour de la taille du tableau
-    def updateLength(self, index, columns):
-        self.tab = [[ [Objet_scene for col in range(objetDimension)] for col in range(index)] for row in range(columns)]
+    def updateLenght(self, index, columns):
+        self.tab = [[ [] for col in range(index)] for row in range(columns)]
 
     # Mise a jour des éléments du tableau
     def updateElement(self, Objet : Objet_scene):
-        print("Objet get position: ", Objet.get_position())
-        self.tab[Objet.get_position()[0]][Objet.get_position()[1]][self.checkElement(Objet)] = Objet
+        self.tab[Objet.get_position()[0]][Objet.get_position()[1]].append(Objet)
 
-    # Observer les elements présent dans la troisieme dimension, en renvoyant l'indice où insérer celui-ci
-    def checkElement(self, Objet : Objet_scene):
-        # Renvoyer l'indice 0 s'il s'agit d'un poussiere
-        if (Objet.get_name() == 'poussiere'):
-            return 0
-        # Renvoyer l'indice 1 s'il s'agit d'un bijoux
-        if (Objet.get_name() == 'bijoux'):
-            return 1
-        # Renvoyer l'indice 2 s'il s'agit d'un robot
-        return 2
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+    def get_value(self, x, y):
+        return self.tab[x][y]
 
     # Retourner le nombre de poussières présent à l'index et la colonne entré en paramètre
     def getDustNumber(self, index, columns):
@@ -82,8 +80,8 @@ class My3DArray():
     def get3DArray(self):
         return self.tab
 
-    def __str__(self):
-        return print(self.tab)
+    # def __str__(self):
+    #     return print(self.tab)
 
 
 
@@ -144,7 +142,11 @@ class ThreadInterface():
 
     # Fonction qui permet d'inserer un element, c'est a dire un robot, une poussiere ou un bijoux dans le manoir, 
     # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
+<<<<<<< HEAD
     def insertElement(self, Objet_scene):
+=======
+    def insertElement(self,Objet_scene):
+>>>>>>> 13-tr-generation-de-larbre
         
         # Deplacement de l'objet s'il s'agit d'un robot
         if Objet_scene.get_name() == 'aspirateur':
@@ -177,6 +179,10 @@ class ThreadInterface():
         # Position de l'image
         label.place(x=Objet_scene.get_position_pixel()[0], y=Objet_scene.get_position_pixel()[1])
         return
+
+    # Retourne une image de l'environnement à l'instant T
+    def photoshoot_env(self):
+        return copy.deepcopy(self.array3D)
 
     # Fonction qui permet d'aspirer un element, c'est a dire une poussiere ou un bijoux dans le manoir, 
     # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
