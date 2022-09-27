@@ -191,14 +191,28 @@ class ThreadInterface():
 
 
         # Redimensionnement de l'image
-        resized_image= image.resize((95,95), Image.ANTIALIAS)
+        #resized_image= image.resize((95,95), Image.ANTIALIAS)
+        resized_image= image.resize((31,31), Image.ANTIALIAS)
+
+
         new_image= ImageTk.PhotoImage(resized_image)
         label = tkinter.Label(image=new_image)
         label.image = new_image
         # Ajout du compteur
         
         # Position de l'image
-        label.place(x=Objet_scene.get_position_pixel()[0], y=Objet_scene.get_position_pixel()[1])
+        x_pos = 0
+        y_pos = 0
+        if (Objet_scene.get_name() == 'poussiere'):
+            x_pos = 30
+            y_pos = 0
+        elif (Objet_scene.get_name() == 'bijoux'):
+            x_pos = 60
+            y_pos = 50
+        else:
+            x_pos = 0
+            y_pos = 50
+        label.place(x=Objet_scene.get_position_pixel()[0] + x_pos, y=Objet_scene.get_position_pixel()[1] + y_pos)
         return
 
     # Retourne une image de l'environnement à l'instant T
