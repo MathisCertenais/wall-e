@@ -65,7 +65,8 @@ class ThreadRobot(threading.Thread):
             # print(self.arbre.getPlan())
 
             print("Breadth_first: ")
-            print(self.arbre.Gready_search(self.x,self.y))
+            # print(self.arbre.Gready_search(self.x,self.y))
+            print(self.arbre.Breadth_first())
             print("Breadth_first finish")
             print(self.arbre.getPlan())
 

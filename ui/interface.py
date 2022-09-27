@@ -134,7 +134,6 @@ class ThreadInterface():
                             self.score -= 1
                 self.insertElement(objet_queue)
                 print("Score: ", self.score)
-                self.createMatrix(self.x,self.y)
             self.root.update()
             
 
@@ -154,18 +153,18 @@ class ThreadInterface():
         canvas.pack()
 
         # Création des lignes verticales
-        for x in range(5+1):
-            canvas.create_line(0, j, 5*100, j)
+        for x in range(index+1):
+            canvas.create_line(0, j, index*100, j)
             j += 100 
 
         # Création des lignes horizontales
-        for x in range(5+1):
-            canvas.create_line(i, 0, i, 5*100)
+        for x in range(columns+1):
+            canvas.create_line(i, 0, i, columns*100)
             i += 100 
 
         # Génération de la trinité
-        for x in range(5):
-            for x in range(5):
+        for x in range(index):
+            for x in range(columns):
                 canvas.create_line(50+k, 60+l, 50+k, 100+l)
                 canvas.create_line(0+k, 0+l, 50+k, 60+l, 100+k, 0+l, 0+k, 0+l)
                 k +=100
