@@ -245,6 +245,95 @@ class Arbre :
 
         return False
         
+    #Renvoi la poussière la plus proche en fonction de la position du robot
+    def Proche_poussiere(self,robot_x,robot_y):
+        poussiere_proche = None
+        distance_proche = 100000
+        for key in self.memory_map:
+            element = self.memory_map[key]
+            tmp_poussiere = element.get_obj()
+            if(self.poussiereIn(tmp_poussiere)):
+                #vérification de l'existance d'une poussière
+                tmp_distance = abs(robot_x - element.get_x()) + abs(robot_y - element.get_y())
+                if (distance_proche > tmp_distance):
+                    distance_proche = tmp_distance
+                    poussiere_proche = element
+                    
+        if(poussiere_proche == None):
+            poussiere_proche = Noeud(self.tab.get_value(robot_x, robot_y), robot_x, robot_y)
+        #print(str(poussiere_proche.get_x()) + "," + str(poussiere_proche.get_x()))
+        return poussiere_proche
+                
+    def Noeud_proche_heuristique(self,noeud_actuelle,noeudN,noeudS,noeudE,noeudW):
+        valN, valS , valE , valW  =1000, 1000, 1000, 1000
+        if(noeudN is not None):
+            valN = noeud_actuelle.distance_Manhatan(noeudN)
+        if(noeudS is not None):
+            valS = noeud_actuelle.distance_Manhatan(noeudS)
+        if(noeudE is not None):
+            valE = noeud_actuelle.distance_Manhatan(noeudE)
+        if(noeudW is not None):
+            valW = noeud_actuelle.distance_Manhatan(noeudW)
+        val_min = min(valN,valS,valE,valW)
+        if(val_min == valN):
+            return noeudN
+        elif(val_min == valS):
+            return noeudS
+        elif(val_min == valE):
+            return noeudE
+        elif(val_min == valW):
+            return noeudW
+
+
+    
+    #Recherche en GreadySearch
+    def Gready_search(self,robot_x,robot_y):
+        self.clean_plan()
+        return self.Explo_gready_search(self.racine,robot_x,robot_y)
+    
+    # Le sens choisi pour l'algo est Nord, Sud, Est et Ouest.
+    def Explo_gready_search(self, noeud,robot_x,robot_y):
+        #recherche de la poussière plus proches
+        poussiere_proche = self.Proche_poussiere(robot_x, robot_y) # ! Noeud But contenant la poussière
+        verifi_n =  poussiere_proche.get_obj()
+        if(self.poussiereIn(verifi_n)==False):
+            return False
+        #Parcours avec l'heuristique Manhatan
+        if noeud is not None:
+            key = str(noeud.get_x())+","+str(noeud.get_y())
+            if key in self.memory_map_recherche:
+                return False
+            value = noeud.get_obj()
+            if (self.poussiereIn(value)):
+                self.plan.append("aspirer")
+                return 
+            else:
+                self.memory_map_recherche[key] = noeud
+                #Noeud correcte d'après manhatan
+                n = self.Noeud_proche_heuristique(poussiere_proche,noeud.getNoeudN(),noeud.getNoeudS(),noeud.getNoeudE(),noeud.getNoeudW())
+                if (n == noeud.getNoeudN()):
+                    self.plan.append("haut")
+                    self.Explo_gready_search(noeud.getNoeudN(),robot_x,robot_y)
+                    return True
+                elif (n == noeud.getNoeudS()):
+                    self.plan.append("descend")
+                    self.Explo_gready_search(noeud.getNoeudS(),robot_x,robot_y)
+                    return True
+                elif (n == noeud.getNoeudE()):
+                    self.plan.append("droite")
+                    self.Explo_gready_search(noeud.getNoeudE(),robot_x,robot_y)
+                    return True
+                elif (n == noeud.getNoeudW()):
+                    self.plan.append("gauche")
+                    self.Explo_gready_search(noeud.getNoeudW(),robot_x,robot_y)
+                    return True
+                else:
+                    return False
+
+            pass
+        else:
+            return False
+
 
 
     def parcourir(self):
