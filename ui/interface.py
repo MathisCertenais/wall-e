@@ -4,6 +4,7 @@ import sys
 # Librairie pour les fenêtres
 import tkinter
 from tkinter import *
+from tkinter.ttk import *
 # Librairie pour les images
 from PIL import Image, ImageTk
 
@@ -109,21 +110,37 @@ class ThreadInterface():
     # Fonction qui permet de générer le manoir, avec comme paramètre le nombre de ligne et de colonne de la matrice, et la fenêtre d'affichage
     def createMatrix(self, index, columns):
 
+        
         # Initialisation des points de coordonnées
         i = 0
         j = 0
-        # Création des lignes horizontales
-        for x in range(index+1):
-            verticale_line = Frame(self.root, bg='blue', height=1,width=columns*100)
-            verticale_line.place(x=0, y=j)
-            j += 100 
+        k = 0
+        l = 0
+
+        # Création d'un gadget de toile
+        canvas=Canvas(self.root, width=500, height=300)
+        canvas.pack()
 
         # Création des lignes verticales
-        for x in range(columns+1):
-            verticale_line = Frame(self.root, bg='blue', height=index*100,width=1)
-            verticale_line.place(x=i, y=0)
+        for x in range(5+1):
+            canvas.create_line(0, j, 5*100, j)
+            j += 100 
+
+        # Création des lignes horizontales
+        for x in range(5+1):
+            canvas.create_line(i, 0, i, 5*100)
             i += 100 
-        
+
+        # Génération de la trinité
+        for x in range(5):
+            for x in range(5):
+                canvas.create_line(50+k, 60+l, 50+k, 100+l)
+                canvas.create_line(0+k, 0+l, 50+k, 60+l, 100+k, 0+l, 0+k, 0+l)
+                k +=100
+            k = 0
+            l += 100
+        # Intégration du canvqs à la fenêtre principale et le rendre extensible.
+        canvas.pack(fill = BOTH, expand = True)
         # Centrer la matrice
 
         return 
