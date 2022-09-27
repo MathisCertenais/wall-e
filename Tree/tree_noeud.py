@@ -47,6 +47,9 @@ class Noeud :
     def get_y(self):
         return self.y
     
+    def distance_Manhatan(self,second_noeud):
+        return (abs(self.x - second_noeud.get_x()) + abs(self.y - second_noeud.get_y()))
+    
     
         
     

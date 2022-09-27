@@ -22,8 +22,8 @@ class ThreadEnvironnement(threading.Thread):
     def run(self):
         while True:
             valeur_rand = random.randint(0,2)
-            val_x = random.randint(0, self.x-1)
-            val_y = random.randint(0, self.y-1)
+            val_x = random.randint(0, self.x-3)
+            val_y = random.randint(0, self.y-3)
             print("ValRand: ",valeur_rand," Valx: ",val_x," Valy: ",val_y)
             if valeur_rand == 0:
                 #Bijoux
@@ -32,7 +32,7 @@ class ThreadEnvironnement(threading.Thread):
             elif valeur_rand == 1:
                 #Poussiere
                 self.queue_elements.put(Poussiere(val_x, val_y))
-                pass
+                #pass
             else:
                 #Cas où on ne fait rien
                 pass

@@ -19,11 +19,11 @@ from ui.interface import ThreadInterface
 from objet_element.main import ThreadEnvironnement
 from robot.Robot import ThreadRobot
 
-bijoux = Bijoux(1,3)
-poussiere = Poussiere(2,3)
+#☺bijoux = Bijoux(1,3)
+poussiere = Poussiere(0,0)
 #Créer sync queues
 queue_elements = Queue()
-queue_elements.put(bijoux)
+#queue_elements.put(bijoux)
 queue_elements.put(poussiere)
 
 #Créer thread objets

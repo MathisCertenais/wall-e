@@ -3,7 +3,7 @@ import time
 from Tree.tree_arbre import Arbre
 
 class ThreadRobot(threading.Thread):
-    def __init__(self, queue_elements, TI, x=0, y=0):
+    def __init__(self, queue_elements, TI, x=2, y=4):
         #Init thread sup
         threading.Thread.__init__(self)
         self.x, self.y = x, y
@@ -40,11 +40,16 @@ class ThreadRobot(threading.Thread):
             # self.arbre.Depth_first_begin()
             # print(self.arbre.getPlan())
 
-            print("Breadth_first: ")
-            print(self.arbre.Breadth_first())
-            print("Breadth_first finish")
+            #print("Breadth_first: ")
+            #print(self.arbre.Breadth_first())
+            #print("Breadth_first finish")
+            #print(self.arbre.getPlan())
+            
+            #GreadySearch
+            print("GreadySearcht: ")
+            self.arbre.Gready_search(self.x,self.y)
+            print("GreadySearcht finish")
             print(self.arbre.getPlan())
-
             #JustDoIt()
 
 
