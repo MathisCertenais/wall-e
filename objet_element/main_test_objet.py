@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Sep 18 15:49:40 2022
-
-@author: aboug
-"""
 from objet_scene import Objet_scene
 from bijoux import Bijoux
 from poussiere import Poussiere

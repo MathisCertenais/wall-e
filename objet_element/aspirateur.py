@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep 16 20:55:45 2022
-
-@author: aboug
-"""
-
 from objet_element.objet_scene import Objet_scene
 
 class Aspirateur(Objet_scene):
