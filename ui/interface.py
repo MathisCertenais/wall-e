@@ -222,8 +222,8 @@ class ThreadInterface():
             # self.canvas.create_image(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8,anchor=NW,image=image)
             # Affichage du nouveau compteur de poussiere
             tags_name = str(Objet_scene.get_position_pixel()[0] + x_pos + 45) + "," + str(Objet_scene.get_position_pixel()[1]  + y_pos + 8)
-            self.memory_label[Objet_scene.get_uuid()].append(tags_name)
             self.canvas.delete(tags_name)
+            self.memory_label[Objet_scene.get_uuid()].append(tags_name)
             self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8, tags=tags_name, text=str(compteur[0]), fill="black", font=('Helvetica 15 bold'))
 
             # label.insert(INSERT, compteur[0])
@@ -234,8 +234,8 @@ class ThreadInterface():
             # self.canvas.create_image(Objet_scene.get_position_pixel()[0], Objet_scene.get_position_pixel()[1],anchor=NW,image=image)
             # Affichage du nouveau compteur de poussiere
             tags_name = str(Objet_scene.get_position_pixel()[0] + x_pos + 27) + "," + str(Objet_scene.get_position_pixel()[1] + 30)
-            self.memory_label[Objet_scene.get_uuid()].append(tags_name)
             self.canvas.delete(tags_name)
+            self.memory_label[Objet_scene.get_uuid()].append(tags_name)
             self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 27, Objet_scene.get_position_pixel()[1] + 30, tags=tags_name, text=str(compteur[1]), fill="black", font=('Helvetica 15 bold'))            # label.insert(INSERT, compteur[1]) 
         else:
             self.memory_label[Objet_scene.get_uuid()].append("None")
@@ -250,15 +250,18 @@ class ThreadInterface():
 
                 self.array3D.set_value(x,y,new_list)
                 self.previous_robot["label"].destroy()
+
+            self.previous_robot = {}
+            self.previous_robot["x"] = Objet_scene.get_position()[0]
+            self.previous_robot["y"] = Objet_scene.get_position()[1]
+            self.previous_robot["label"] = label
             x_pos = 5
             y_pos = 55
+            
 
         label.place(x=Objet_scene.get_position_pixel()[0] + x_pos, y=Objet_scene.get_position_pixel()[1] + y_pos)
         self.memory_label[Objet_scene.get_uuid()].append(label)
-        self.previous_robot = {}
-        self.previous_robot["x"] = Objet_scene.get_position()[0]
-        self.previous_robot["y"] = Objet_scene.get_position()[1]
-        self.previous_robot["label"] = label
+        
         return
 
     # Retourne une image de l'environnement à l'instant T
