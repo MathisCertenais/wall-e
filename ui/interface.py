@@ -202,11 +202,9 @@ class ThreadInterface():
         # Calcul de la contenance du tableau
         print(Objet_scene.get_position_pixel()[0])
         compteur = self.array3D.getElementNumber(Objet_scene.get_position()[0], Objet_scene.get_position()[1])
-        # Chargement de l'image permettant de dissimuler le compteur
-        image_postit = ImageTk.PhotoImage(Image.open("C:\\Users\\Mathis\\Documents\\code\\wall-e\\ui\\pictures\\postit.png"))
-        image = ImageTk.PhotoImage(Image.open('C:\\Users\\Mathis\\Documents\\code\\wall-e\\ui\\pictures\\aspirateur.png'))
-
-        self.canvas.create_image(10,10,anchor=NW,image=image)
+        # Chargement de l'image permettant de dissimuler le compteur        
+        # image = ImageTk.PhotoImage(Image.open('C:\\Users\\Mathis\\Documents\\code\\wall-e\\ui\\pictures\\aspirateur.png'))
+        # self.canvas.create_image(10,10,anchor=NW,image=image)
 
 
         if (Objet_scene.get_name() == 'poussiere'):
@@ -214,7 +212,7 @@ class ThreadInterface():
             x_pos = 35
             y_pos = 5
             # Dissimuler le compteur précédent compteur de poussiere
-            self.canvas.create_image(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8,anchor=NW,image=image_postit)
+            # self.canvas.create_image(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8,anchor=NW,image=image)
             # Affichage du nouveau compteur de poussiere
             self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8, text=str(compteur[0]), fill="black", font=('Helvetica 15 bold'))
 
@@ -223,7 +221,7 @@ class ThreadInterface():
             x_pos = 65
             y_pos = 55
             # Dissimuler le compteur précédent compteur de poussiere
-            self.canvas.create_image(Objet_scene.get_position_pixel()[0], Objet_scene.get_position_pixel()[1],anchor=NW,image=image_postit)
+            # self.canvas.create_image(Objet_scene.get_position_pixel()[0], Objet_scene.get_position_pixel()[1],anchor=NW,image=image)
             # Affichage du nouveau compteur de poussiere
             self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 27, Objet_scene.get_position_pixel()[1]  + 30, text=str(compteur[1]), fill="black", font=('Helvetica 15 bold'))            # label.insert(INSERT, compteur[1]) 
         else:
