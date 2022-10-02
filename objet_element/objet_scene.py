@@ -1,17 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep 16 20:32:03 2022
-
-@author: aboug
-"""
+import uuid
 
 class Objet_scene:
-    
-    point = 0
-    name = ""
-    pos_x = 0
-    pos_y = 0
-    path = ""
     
     def __init__(self,ipoint, iname, ipos_x, ipos_y, ipath):
         self.point = ipoint
@@ -21,7 +10,10 @@ class Objet_scene:
         self.pos_x_pixel = 101*ipos_x 
         self.pos_y_pixel = 101*ipos_y
         self.path = ipath
+        self.uuid_name = str(uuid.uuid1())
         
+    def get_uuid(self):
+        return self.uuid_name
     def get_point(self):
         return self.point
     

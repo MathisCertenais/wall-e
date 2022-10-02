@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 22 11:48:59 2022
-
-@author: aboug
-"""
 from Tree.tree_noeud import Noeud
 
 
@@ -49,14 +43,14 @@ class Arbre :
         return self.plan
 
     def poussiereIn(self, liste):
-        print("Poussiere: value from x,y: ", liste)
+        #print("Poussiere: value from x,y: ", liste)
         for element in liste:
             if element.get_name() == "poussiere":
                 return True
         return False
 
     def bijouxIn(self, liste):
-        print("Bijoux: value from x,y: ", liste)
+        #print("Bijoux: value from x,y: ", liste)
         for element in liste:
             if element.get_name() == "bijoux":
                 return True
@@ -110,7 +104,7 @@ class Arbre :
 
     def Breadth_first_recursive(self, list_noeuds):
         self.frontiere = []
-        print("IIII: ",self.i)
+        #print("IIII: ",self.i)
         for noeuds in list_noeuds:
             noeud = noeuds[0]
             mouvement = noeuds[1]
@@ -123,27 +117,27 @@ class Arbre :
         if not self.frontiere:
             return False
 
-        print("Frontiere: ", self.frontiere)
+        #print("Frontiere: ", self.frontiere)
         for noeuds in self.frontiere:
             noeud = noeuds[0]
             key = str(noeud.get_x())+","+str(noeud.get_y()) 
             print("Noeud: ", key, " Value: ", noeud.get_obj())
 
-        print("\n\n")
+        #print("\n\n")
         
         return self.Breadth_first_recursive(self.frontiere)
 
     def Breadth_first_frontiere(self, noeud, mouvement):
-        print("mouvement: ", mouvement)
+        #print("mouvement: ", mouvement)
         if noeud is not None:
             
             key = str(noeud.get_x())+","+str(noeud.get_y())
-            print("Noeud: ", key, " Value: ", noeud.get_obj())
+            #print("Noeud: ", key, " Value: ", noeud.get_obj())
             
 
             
             if noeud.getNoeudN() is not None:
-                print("Noeud N")
+                #print("Noeud N")
                 key = str(noeud.getNoeudN().get_x())+","+str(noeud.getNoeudN().get_y())
                 if key in self.memory_map_recherche:
                     pass
@@ -151,7 +145,7 @@ class Arbre :
                     valeur = noeud.getNoeudN().get_obj()
                     copy_mov = mouvement.copy()
                     copy_mov.append("haut")
-                    print("movem: ", copy_mov)
+                    #print("movem: ", copy_mov)
                     if self.poussiereIn(valeur):
                         if self.bijouxIn(valeur):
                             copy_mov.append("ramasser")
@@ -163,12 +157,12 @@ class Arbre :
                         self.plan = copy_mov
                         return True
                     else:
-                        print("add to frontiere")
+                        #print("add to frontiere")
                         
                         self.frontiere.append([noeud.getNoeudN(), copy_mov])
 
             if noeud.getNoeudS() is not None:
-                print("Noeud S")
+                #print("Noeud S")
                 key = str(noeud.getNoeudS().get_x())+","+str(noeud.getNoeudS().get_y())
                 if key in self.memory_map_recherche:
                     pass
@@ -176,7 +170,7 @@ class Arbre :
                     valeur = noeud.getNoeudS().get_obj()
                     copy_mov = mouvement.copy()
                     copy_mov.append("descend")
-                    print("movem: ", copy_mov)
+                    #print("movem: ", copy_mov)
                     if self.poussiereIn(valeur):
                         if self.bijouxIn(valeur):
                             copy_mov.append("ramasser")
@@ -188,12 +182,12 @@ class Arbre :
                         self.plan = copy_mov
                         return True
                     else:
-                        print("add to frontiere")
+                        #print("add to frontiere")
                         
                         self.frontiere.append([noeud.getNoeudS(),copy_mov])
 
             if noeud.getNoeudE() is not None:
-                print("Noeud E")
+                #print("Noeud E")
                 key = str(noeud.getNoeudE().get_x())+","+str(noeud.getNoeudE().get_y())
                 if key in self.memory_map_recherche:
                     pass
@@ -201,7 +195,7 @@ class Arbre :
                     valeur = noeud.getNoeudE().get_obj()
                     copy_mov = mouvement.copy()
                     copy_mov.append("droite")
-                    print("movem: ", copy_mov)
+                    #print("movem: ", copy_mov)
                     if self.poussiereIn(valeur):
                         if self.bijouxIn(valeur):
                             copy_mov.append("ramasser")
@@ -213,12 +207,12 @@ class Arbre :
                         self.plan = copy_mov
                         return True
                     else:
-                        print("add to frontiere")
+                        #print("add to frontiere")
                         
                         self.frontiere.append([noeud.getNoeudE(), copy_mov])
 
             if noeud.getNoeudW() is not None:
-                print("Noeud W")
+                #print("Noeud W")
                 key = str(noeud.getNoeudW().get_x())+","+str(noeud.getNoeudW().get_y())
                 if key in self.memory_map_recherche:
                     pass
@@ -226,7 +220,7 @@ class Arbre :
                     valeur = noeud.getNoeudW().get_obj()
                     copy_mov = mouvement.copy()
                     copy_mov.append("gauche")
-                    print("movem: ", copy_mov)
+                    #print("movem: ", copy_mov)
                     if self.poussiereIn(valeur):
                         if self.bijouxIn(valeur):
                             copy_mov.append("ramasser")
@@ -238,7 +232,7 @@ class Arbre :
                         self.plan = copy_mov
                         return True
                     else:
-                        print("add to frontiere")
+                        #print("add to frontiere")
                         
                         self.frontiere.append([noeud.getNoeudW(), copy_mov])
 
@@ -337,7 +331,8 @@ class Arbre :
 
 
     def parcourir(self):
-        print(self.memory_map)
+        #print(self.memory_map)
+        return
         
             
         
