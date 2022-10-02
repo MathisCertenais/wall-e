@@ -93,6 +93,8 @@ class ThreadInterface():
         self.x, self.y = x, y
         # Créer la matrice
         self.canvas = self.createMatrix(x,y)
+        self.memory_label = {}
+        self.previous_robot = None
 
         # Initialisation du tableau 3d
         self.array3D = My3DArray(x, y)
@@ -102,8 +104,7 @@ class ThreadInterface():
 
         #score du robot
         self.score = 0
-
-
+        
 
     # Fonctions lancés par thread.start et qui tournera en boucle
     def run(self):
@@ -116,6 +117,8 @@ class ThreadInterface():
                     for action in objet_queue.getAction():
                         if action == "aspirer":
                             for element in self.array3D.get_value(position_x, position_y):
+                                self.canvas.delete(self.memory_label[element.get_uuid()][0])
+                                self.memory_label[element.get_uuid()][1].destroy()
                                 if element.get_name() == "bijoux":
                                     self.score -= element.get_point()
                                 else:
@@ -127,6 +130,8 @@ class ThreadInterface():
                             for element in self.array3D.get_value(position_x, position_y):
                                 if element.get_name() == "bijoux":
                                     self.score += element.get_point()
+                                    self.canvas.delete(self.memory_label[element.get_uuid()][0])
+                                    self.memory_label[element.get_uuid()][1].destroy()
                                 else:
                                     new_liste.append(element)
                             self.array3D.set_value(position_x, position_y, new_liste)
@@ -195,6 +200,7 @@ class ThreadInterface():
         #resized_image= image.resize((95,95), Image.ANTIALIAS)
         resized_image= image.resize((31,31), Image.ANTIALIAS)
 
+        self.memory_label[Objet_scene.get_uuid()] = []
 
         new_image= ImageTk.PhotoImage(resized_image)
         label = tkinter.Label(image=new_image)
@@ -202,6 +208,7 @@ class ThreadInterface():
         # Calcul de la contenance du tableau
         print(Objet_scene.get_position_pixel()[0])
         compteur = self.array3D.getElementNumber(Objet_scene.get_position()[0], Objet_scene.get_position()[1])
+
         # Chargement de l'image permettant de dissimuler le compteur        
         # image = ImageTk.PhotoImage(Image.open('C:\\Users\\Mathis\\Documents\\code\\wall-e\\ui\\pictures\\aspirateur.png'))
         # self.canvas.create_image(10,10,anchor=NW,image=image)
@@ -214,7 +221,10 @@ class ThreadInterface():
             # Dissimuler le compteur précédent compteur de poussiere
             # self.canvas.create_image(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8,anchor=NW,image=image)
             # Affichage du nouveau compteur de poussiere
-            self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8, text=str(compteur[0]), fill="black", font=('Helvetica 15 bold'))
+            tags_name = str(Objet_scene.get_position_pixel()[0] + x_pos + 45) + "," + str(Objet_scene.get_position_pixel()[1]  + y_pos + 8)
+            self.memory_label[Objet_scene.get_uuid()].append(tags_name)
+            self.canvas.delete(tags_name)
+            self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8, tags=tags_name, text=str(compteur[0]), fill="black", font=('Helvetica 15 bold'))
 
             # label.insert(INSERT, compteur[0])
         elif (Objet_scene.get_name() == 'bijoux'):
@@ -223,12 +233,32 @@ class ThreadInterface():
             # Dissimuler le compteur précédent compteur de poussiere
             # self.canvas.create_image(Objet_scene.get_position_pixel()[0], Objet_scene.get_position_pixel()[1],anchor=NW,image=image)
             # Affichage du nouveau compteur de poussiere
-            self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 27, Objet_scene.get_position_pixel()[1]  + 30, text=str(compteur[1]), fill="black", font=('Helvetica 15 bold'))            # label.insert(INSERT, compteur[1]) 
+            tags_name = str(Objet_scene.get_position_pixel()[0] + x_pos + 27) + "," + str(Objet_scene.get_position_pixel()[1] + 30)
+            self.memory_label[Objet_scene.get_uuid()].append(tags_name)
+            self.canvas.delete(tags_name)
+            self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 27, Objet_scene.get_position_pixel()[1] + 30, tags=tags_name, text=str(compteur[1]), fill="black", font=('Helvetica 15 bold'))            # label.insert(INSERT, compteur[1]) 
         else:
+            self.memory_label[Objet_scene.get_uuid()].append("None")
+            if self.previous_robot is not None:
+                x = self.previous_robot["x"]
+                y = self.previous_robot["y"]
+
+                new_list = []
+                for element in self.array3D.get_value(x,y):
+                    if element.get_name() != "aspirateur":
+                        new_list.append(element)
+
+                self.array3D.set_value(x,y,new_list)
+                self.previous_robot["label"].destroy()
             x_pos = 5
             y_pos = 55
 
         label.place(x=Objet_scene.get_position_pixel()[0] + x_pos, y=Objet_scene.get_position_pixel()[1] + y_pos)
+        self.memory_label[Objet_scene.get_uuid()].append(label)
+        self.previous_robot = {}
+        self.previous_robot["x"] = Objet_scene.get_position()[0]
+        self.previous_robot["y"] = Objet_scene.get_position()[1]
+        self.previous_robot["label"] = label
         return
 
     # Retourne une image de l'environnement à l'instant T
