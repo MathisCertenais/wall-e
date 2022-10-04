@@ -92,7 +92,7 @@ class ThreadInterface():
 
         self.x, self.y = x, y
         # Créer la matrice
-        self.canvas = self.createMatrix(x,y)
+        self.value = self.createMatrix(x,y)
         self.memory_label = {}
         self.previous_robot = None
 
@@ -117,7 +117,7 @@ class ThreadInterface():
                     for action in objet_queue.getAction():
                         if action == "aspirer":
                             for element in self.array3D.get_value(position_x, position_y):
-                                self.canvas.delete(self.memory_label[element.get_uuid()][0])
+                                self.value[0].delete(self.memory_label[element.get_uuid()][0])
                                 self.memory_label[element.get_uuid()][1].destroy()
                                 if element.get_name() == "bijoux":
                                     self.score -= element.get_point()
@@ -130,7 +130,7 @@ class ThreadInterface():
                             for element in self.array3D.get_value(position_x, position_y):
                                 if element.get_name() == "bijoux":
                                     self.score += element.get_point()
-                                    self.canvas.delete(self.memory_label[element.get_uuid()][0])
+                                    self.value[0].delete(self.memory_label[element.get_uuid()][0])
                                     self.memory_label[element.get_uuid()][1].destroy()
                                 else:
                                     new_liste.append(element)
@@ -176,11 +176,12 @@ class ThreadInterface():
                 k +=100
             k = 3
             l += 100
+        # Creation du tableau des scores
+        canvas.create_text(j, 50, text="Score du robot", fill="black", font=('Helvetica 15 bold'))
         # Intégration du canvqs à la fenêtre principale et le rendre extensible.
         canvas.pack(fill = BOTH, expand = True)
-        # Centrer la matrice
 
-        return canvas
+        return canvas, i, j
 
     # Fonction qui permet d'inserer un element, c'est a dire un robot, une poussiere ou un bijoux dans le manoir, 
     # avec comme paramètre l'objet qui correspond a l'élément à ajouter, et la fenêtre d'affichage
@@ -222,9 +223,9 @@ class ThreadInterface():
             # self.canvas.create_image(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8,anchor=NW,image=image)
             # Affichage du nouveau compteur de poussiere
             tags_name = str(Objet_scene.get_position_pixel()[0] + x_pos + 45) + "," + str(Objet_scene.get_position_pixel()[1]  + y_pos + 8)
-            self.canvas.delete(tags_name)
+            self.value[0].delete(tags_name)
             self.memory_label[Objet_scene.get_uuid()].append(tags_name)
-            self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8, tags=tags_name, text=str(compteur[0]), fill="black", font=('Helvetica 15 bold'))
+            self.value[0].create_text(Objet_scene.get_position_pixel()[0] + x_pos + 45, Objet_scene.get_position_pixel()[1]  + y_pos + 8, tags=tags_name, text=str(compteur[0]), fill="black", font=('Helvetica 15 bold'))
 
             # label.insert(INSERT, compteur[0])
         elif (Objet_scene.get_name() == 'bijoux'):
@@ -234,9 +235,9 @@ class ThreadInterface():
             # self.canvas.create_image(Objet_scene.get_position_pixel()[0], Objet_scene.get_position_pixel()[1],anchor=NW,image=image)
             # Affichage du nouveau compteur de poussiere
             tags_name = str(Objet_scene.get_position_pixel()[0] + x_pos + 27) + "," + str(Objet_scene.get_position_pixel()[1] + 30)
-            self.canvas.delete(tags_name)
+            self.value[0].delete(tags_name)
             self.memory_label[Objet_scene.get_uuid()].append(tags_name)
-            self.canvas.create_text(Objet_scene.get_position_pixel()[0] + x_pos + 27, Objet_scene.get_position_pixel()[1] + 30, tags=tags_name, text=str(compteur[1]), fill="black", font=('Helvetica 15 bold'))            # label.insert(INSERT, compteur[1]) 
+            self.value[0].create_text(Objet_scene.get_position_pixel()[0] + x_pos + 27, Objet_scene.get_position_pixel()[1] + 30, tags=tags_name, text=str(compteur[1]), fill="black", font=('Helvetica 15 bold'))            # label.insert(INSERT, compteur[1]) 
         else:
             self.memory_label[Objet_scene.get_uuid()].append("None")
             if self.previous_robot is not None:
@@ -258,6 +259,10 @@ class ThreadInterface():
             x_pos = 5
             y_pos = 55
             
+        # Mise a jour du tableau des scores
+        tags_name = "score"
+        self.value[0].delete("score")
+        self.value[0].create_text(self.value[2] + 100, 50, tags="score", text=str(self.score), fill="black", font=('Helvetica 15 bold'))
 
         label.place(x=Objet_scene.get_position_pixel()[0] + x_pos, y=Objet_scene.get_position_pixel()[1] + y_pos)
         self.memory_label[Objet_scene.get_uuid()].append(label)
