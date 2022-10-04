@@ -21,7 +21,7 @@ class ThreadEnvironnement(threading.Thread):
     #Boucle infinies génère éléments
     def run(self):
         while True:
-            valeur_rand = random.randint(0,2)
+            valeur_rand = random.randint(0,1)
             val_x = random.randint(0, self.x-1)
             val_y = random.randint(0, self.y-1)
             print("ValRand: ",valeur_rand," Valx: ",val_x," Valy: ",val_y)
@@ -38,7 +38,7 @@ class ThreadEnvironnement(threading.Thread):
                 pass
 
 
-            valeur_sleep = random.randint(10,50)
+            valeur_sleep = random.randint(5,10)
             print("Sleep: ",valeur_sleep," secondes")
             time.sleep(valeur_sleep)
             

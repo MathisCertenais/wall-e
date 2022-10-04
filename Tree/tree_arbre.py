@@ -240,23 +240,40 @@ class Arbre :
         return False
         
     #Renvoi la poussière la plus proche en fonction de la position du robot
-    def Proche_poussiere(self,robot_x,robot_y):
+    def Proche_poussiere_or_bijoux(self,robot_x,robot_y):
         poussiere_proche = None
+        bijoux_proche = None
         distance_proche = 100000
+        distance_proche_b = 100000
+
         for key in self.memory_map:
             element = self.memory_map[key]
-            tmp_poussiere = element.get_obj()
-            if(self.poussiereIn(tmp_poussiere)):
+            tmp = element.get_obj()
+            if(self.poussiereIn(tmp)):
                 #vérification de l'existance d'une poussière
                 tmp_distance = abs(robot_x - element.get_x()) + abs(robot_y - element.get_y())
+                print("distance")
+                print(tmp_distance)
                 if (distance_proche > tmp_distance):
                     distance_proche = tmp_distance
                     poussiere_proche = element
+            elif(self.bijouxIn(tmp)):
+                #vérification de l'existance d'une poussière
+                tmp_distance_b = abs(robot_x - element.get_x()) + abs(robot_y - element.get_y())
+                if (distance_proche_b > tmp_distance_b):
+                    distance_proche_b = tmp_distance_b
+                    bijoux_proche = element
+                   
                     
         if(poussiere_proche == None):
-            poussiere_proche = Noeud(self.tab.get_value(robot_x, robot_y), robot_x, robot_y)
-        #print(str(poussiere_proche.get_x()) + "," + str(poussiere_proche.get_x()))
-        return poussiere_proche
+            if(bijoux_proche != None):
+                return bijoux_proche
+            else:
+                poussiere_proche = Noeud(self.tab.get_value(robot_x, robot_y), robot_x, robot_y)
+                return poussiere_proche
+        elif(poussiere_proche != None):
+            return poussiere_proche
+         
                 
     def Noeud_proche_heuristique(self,noeud_actuelle,noeudN,noeudS,noeudE,noeudW):
         valN, valS , valE , valW  =1000, 1000, 1000, 1000
@@ -288,9 +305,9 @@ class Arbre :
     # Le sens choisi pour l'algo est Nord, Sud, Est et Ouest.
     def Explo_gready_search(self, noeud,robot_x,robot_y):
         #recherche de la poussière plus proches
-        poussiere_proche = self.Proche_poussiere(robot_x, robot_y) # ! Noeud But contenant la poussière
-        verifi_n =  poussiere_proche.get_obj()
-        if(self.poussiereIn(verifi_n)==False):
+        poussiere_bijoux_proche = self.Proche_poussiere_or_bijoux(robot_x, robot_y) # ! Noeud But contenant la poussière
+        verifi_n =  poussiere_bijoux_proche.get_obj()
+        if((self.poussiereIn(verifi_n) or self.bijouxIn(verifi_n)) ==False):
             return False
         #Parcours avec l'heuristique Manhatan
         if noeud is not None:
@@ -298,13 +315,18 @@ class Arbre :
             if key in self.memory_map_recherche:
                 return False
             value = noeud.get_obj()
-            if (self.poussiereIn(value)):
+            if self.poussiereIn(value):
+                if self.bijouxIn(value):
+                    self.plan.append("ramasser")
                 self.plan.append("aspirer")
                 return 
+            elif self.bijouxIn(value):
+                 self.plan.append("ramasser")
+                 return
             else:
                 self.memory_map_recherche[key] = noeud
                 #Noeud correcte d'après manhatan
-                n = self.Noeud_proche_heuristique(poussiere_proche,noeud.getNoeudN(),noeud.getNoeudS(),noeud.getNoeudE(),noeud.getNoeudW())
+                n = self.Noeud_proche_heuristique(poussiere_bijoux_proche,noeud.getNoeudN(),noeud.getNoeudS(),noeud.getNoeudE(),noeud.getNoeudW())
                 if (n == noeud.getNoeudN()):
                     self.plan.append("haut")
                     self.Explo_gready_search(noeud.getNoeudN(),robot_x,robot_y)
