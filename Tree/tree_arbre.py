@@ -240,7 +240,7 @@ class Arbre :
         return False
         
     #Renvoi la poussière la plus proche en fonction de la position du robot
-    def Proche_poussiere_or_bijoux(self,robot_x,robot_y):
+    def Proche_poussiere_or_bijoux(self):
         poussiere_proche = None
         bijoux_proche = None
         distance_proche = 100000
@@ -251,7 +251,7 @@ class Arbre :
             tmp = element.get_obj()
             if(self.poussiereIn(tmp)):
                 #vérification de l'existance d'une poussière
-                tmp_distance = abs(robot_x - element.get_x()) + abs(robot_y - element.get_y())
+                tmp_distance = abs(self.pos_x - element.get_x()) + abs(self.pos_y - element.get_y())
                 print("distance")
                 print(tmp_distance)
                 if (distance_proche > tmp_distance):
@@ -259,7 +259,7 @@ class Arbre :
                     poussiere_proche = element
             elif(self.bijouxIn(tmp)):
                 #vérification de l'existance d'une poussière
-                tmp_distance_b = abs(robot_x - element.get_x()) + abs(robot_y - element.get_y())
+                tmp_distance_b = abs(self.pos_x - element.get_x()) + abs(self.pos_y - element.get_y())
                 if (distance_proche_b > tmp_distance_b):
                     distance_proche_b = tmp_distance_b
                     bijoux_proche = element
@@ -269,7 +269,7 @@ class Arbre :
             if(bijoux_proche != None):
                 return bijoux_proche
             else:
-                poussiere_proche = Noeud(self.tab.get_value(robot_x, robot_y), robot_x, robot_y)
+                poussiere_proche = Noeud(self.tab.get_value(self.pos_x, self.pos_y), self.pos_x, self.pos_y)
                 return poussiere_proche
         elif(poussiere_proche != None):
             return poussiere_proche
@@ -298,14 +298,14 @@ class Arbre :
 
     
     #Recherche en GreadySearch
-    def Gready_search(self,robot_x,robot_y):
+    def Gready_search(self):
         self.clean_plan()
-        return self.Explo_gready_search(self.racine,robot_x,robot_y)
+        return self.Explo_gready_search(self.racine)
     
     # Le sens choisi pour l'algo est Nord, Sud, Est et Ouest.
-    def Explo_gready_search(self, noeud,robot_x,robot_y):
+    def Explo_gready_search(self, noeud):
         #recherche de la poussière plus proches
-        poussiere_bijoux_proche = self.Proche_poussiere_or_bijoux(robot_x, robot_y) # ! Noeud But contenant la poussière
+        poussiere_bijoux_proche = self.Proche_poussiere_or_bijoux() # ! Noeud But contenant la poussière
         verifi_n =  poussiere_bijoux_proche.get_obj()
         if((self.poussiereIn(verifi_n) or self.bijouxIn(verifi_n)) ==False):
             return False
@@ -329,19 +329,19 @@ class Arbre :
                 n = self.Noeud_proche_heuristique(poussiere_bijoux_proche,noeud.getNoeudN(),noeud.getNoeudS(),noeud.getNoeudE(),noeud.getNoeudW())
                 if (n == noeud.getNoeudN()):
                     self.plan.append("haut")
-                    self.Explo_gready_search(noeud.getNoeudN(),robot_x,robot_y)
+                    self.Explo_gready_search(noeud.getNoeudN())
                     return True
                 elif (n == noeud.getNoeudS()):
                     self.plan.append("descend")
-                    self.Explo_gready_search(noeud.getNoeudS(),robot_x,robot_y)
+                    self.Explo_gready_search(noeud.getNoeudS())
                     return True
                 elif (n == noeud.getNoeudE()):
                     self.plan.append("droite")
-                    self.Explo_gready_search(noeud.getNoeudE(),robot_x,robot_y)
+                    self.Explo_gready_search(noeud.getNoeudE())
                     return True
                 elif (n == noeud.getNoeudW()):
                     self.plan.append("gauche")
-                    self.Explo_gready_search(noeud.getNoeudW(),robot_x,robot_y)
+                    self.Explo_gready_search(noeud.getNoeudW())
                     return True
                 else:
                     return False
