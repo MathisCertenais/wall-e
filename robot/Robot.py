@@ -13,6 +13,7 @@ class ThreadRobot(threading.Thread):
         self.queue_elements = queue_elements
         self.TI = TI
         self.aspirateur = Aspirateur(0,0)
+        self.limit = 1
         pass
 
     # Capture l'environnement à l'instant T. Capteur
@@ -24,7 +25,10 @@ class ThreadRobot(threading.Thread):
         self.arbre = Arbre(self.aspirateur.get_position()[0], self.aspirateur.get_position()[1], self.image_instant_T)
 
     def JustDoIt(self):
+        count = 0
         for action in self.arbre.getPlan():
+            if count == self.limit:
+                break
             pos_list = self.aspirateur.get_position()
             print("position robot: ", pos_list)
             x, y = pos_list[0], pos_list[1]
@@ -45,7 +49,8 @@ class ThreadRobot(threading.Thread):
             elif action == "ramasser":
                 self.aspirateur.addAction("ramasser")
             self.queue_elements.put(self.aspirateur)
-            time.sleep(1)
+            count += 1
+            time.sleep(0.75)
 
 
     def run(self):
@@ -73,7 +78,7 @@ class ThreadRobot(threading.Thread):
             #JustDoIt()
             self.JustDoIt()
 
-            time.sleep(5)
+            time.sleep(0.3)
             pass
             
 

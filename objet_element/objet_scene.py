@@ -37,7 +37,7 @@ class Objet_scene:
 
     def set_position(self, x, y):
         self.pos_x, self.pos_y = x, y
-        print("X: ", self.pos_x, " Y: ", self.pos_y)
+        #print("X: ", self.pos_x, " Y: ", self.pos_y)
         self.pos_x_pixel = 101*self.pos_x
         self.pos_y_pixel = 101*self.pos_y
     

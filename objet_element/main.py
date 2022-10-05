@@ -38,7 +38,9 @@ class ThreadEnvironnement(threading.Thread):
                 pass
 
 
-            valeur_sleep = random.randint(5,10)
+            #valeur_sleep = random.randint(0.1, 0.2)
+            #Between 0 and 1 float values   
+            valeur_sleep = random.uniform(0.2, 0.4)
             print("Sleep: ",valeur_sleep," secondes")
             time.sleep(valeur_sleep)
             
