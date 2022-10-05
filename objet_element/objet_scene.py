@@ -1,5 +1,6 @@
 import uuid
 
+# Classe mère de tous les objets qui apparaissent sur la matrice
 class Objet_scene:
     
     def __init__(self,ipoint, iname, ipos_x, ipos_y, ipath):

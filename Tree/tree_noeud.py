@@ -1,3 +1,5 @@
+
+#Classe objet noeud qui permet de construire l'arbre avec ses setters et getter
 class Noeud : 
     def __init__(self,obj, x, y,noeudN=None,noeudS=None, noeudW=None, noeudE=None):
         self.obj = obj #liste des objet poussière, bijoux ou robot

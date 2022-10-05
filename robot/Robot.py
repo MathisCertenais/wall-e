@@ -3,6 +3,7 @@ import time
 from Tree.tree_arbre import Arbre
 from objet_element.aspirateur import Aspirateur
 
+#Robert le robot ! Prêt pour la révolution, le robot humanoïde de Tesla n'a qu'à bien se tenir en place !
 class ThreadRobot(threading.Thread):
     def __init__(self, queue_elements, TI, x=0, y=0):
         #Init thread sup
@@ -54,7 +55,7 @@ class ThreadRobot(threading.Thread):
 
 
     def run(self):
-        #Boucle infine d'action du petit robot
+        #Boucle infine d'action du petit robot Robert
         while True:
             #Capteur
             self.capturer()
@@ -66,12 +67,11 @@ class ThreadRobot(threading.Thread):
 
             #Exploration
             self.arbre.clean_plan()
-            # self.arbre.Depth_first_begin()
-            # print(self.arbre.getPlan())
 
             print("Breadth_first: ")
             print(self.arbre.Gready_search())
             #print(self.arbre.Breadth_first())
+            #print(self.arbre.Depth_first_begin())
             print("Breadth_first finish")
             print(self.arbre.getPlan())
 
