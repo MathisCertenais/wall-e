@@ -69,6 +69,8 @@ class ThreadRobot(threading.Thread):
             self.arbre.clean_plan()
 
             print("Breadth_first: ")
+            # Choisir parmi les 3 algorithmes entre Gready_search(), Breadth_first() et Depth_first_begin()
+            # en décommentant l'algorithme voulu
             print(self.arbre.Gready_search())
             #print(self.arbre.Breadth_first())
             #print(self.arbre.Depth_first_begin())
